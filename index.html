@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الشات | منصة الألغاز والتخمين للبث المباشر</title>
-    <!-- استيراد خطوط Cairo و Tajawal للغة العربية و Inter للأرقام -->
+    <title>تحدي الشات | منصة الألغاز والتخمين للبث المباشر - 8bjc games</title>
+    <!-- استيراد خطوط Cairo للغة العربية و Inter للأرقام -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
@@ -45,7 +45,7 @@
     <style>
         body {
             background-color: #0d0914;
-            background-image: 
+            background-image:
                 radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
                 radial-gradient(circle at 85% 85%, rgba(83, 252, 24, 0.07) 0%, transparent 40%);
             color: #ffffff;
@@ -97,13 +97,13 @@
 </head>
 <body class="min-h-screen flex flex-col selection:bg-brand-kick selection:text-black">
 
-    <!-- حاوية الإشعارات العائمة (بديل alert) -->
+    <!-- حاوية الإشعارات العائمة -->
     <div id="toast-container" class="fixed bottom-5 left-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
 
     <!-- الشريط العلوي (Navbar & Kick Connector) -->
     <header class="bg-brand-card/90 backdrop-blur-md border-b border-brand-border sticky top-0 z-30">
         <div class="max-w-[1650px] mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
-            
+
             <!-- شعار المنصة -->
             <div class="flex items-center gap-3">
                 <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-purple to-brand-purpleDark flex items-center justify-center text-white font-black text-2xl shadow-purple-glow border border-brand-purpleLight/30 select-none">
@@ -118,7 +118,7 @@
                             KICK LIVE
                         </span>
                     </div>
-                    <p class="text-xs text-brand-muted hidden sm:block">منصة الألغاز، الأمثال، والتخمين التفاعلية للستريمرز</p>
+                    <p class="text-xs text-brand-muted hidden sm:block">منصة الألغاز، الأمثال، والتخمين التفاعلية للبث المباشر</p>
                 </div>
             </div>
 
@@ -166,7 +166,7 @@
     <!-- المحتوى الرئيسي -->
     <main class="flex-1 max-w-[1650px] w-full mx-auto p-4 flex flex-col gap-5">
 
-        <!-- شريط اختيار نمط اللعبة (مستوحى من بطاقات منصة جولة) -->
+        <!-- شريط اختيار نمط اللعبة -->
         <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             <button onclick="selectGameMode('all')" id="mode-btn-all"
                 class="mode-card group relative overflow-hidden rounded-2xl p-3.5 text-right border-2 border-brand-purple bg-brand-card shadow-purple-glow transition-all cursor-pointer">
@@ -224,10 +224,10 @@
 
             <!-- ساحة اللعب المركزية (8 أعمدة) -->
             <section class="lg:col-span-8 flex flex-col gap-4">
-                
+
                 <!-- بطاقة السؤال والتحدي -->
                 <div id="arena-card" class="bg-brand-card border-2 border-brand-border rounded-3xl p-5 sm:p-8 shadow-2xl relative overflow-hidden min-h-[430px] flex flex-col justify-between transition-all">
-                    
+
                     <!-- شريط المعلومات العلوي داخل البطاقة -->
                     <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-brand-border/80">
                         <div class="flex items-center gap-2">
@@ -273,7 +273,7 @@
                         <div id="hints-container" class="w-full max-w-xl flex flex-col gap-2 mt-2"></div>
                     </div>
 
-                    <!-- لافتة الفائز أو كشف الإجابة (تظهر عند انتهاء الجولة) -->
+                    <!-- لافتة الفائز أو كشف الإجابة -->
                     <div id="round-result-banner" class="hidden mt-3 p-4 rounded-2xl bg-brand-bg border-2 border-brand-kick text-center animate-pop">
                         <div id="result-title" class="text-xs font-extrabold text-brand-kick mb-1">🎉 إجابة صحيحة وأسرع بطل في الشات!</div>
                         <div id="result-winner-name" class="text-2xl sm:text-3xl font-black text-white font-mono">Username</div>
@@ -325,8 +325,8 @@
 
             <!-- الشريط الجانبي: لوحة المتصدرين + الشات المباشر (4 أعمدة) -->
             <aside class="lg:col-span-4 flex flex-col gap-4">
-                
-                <!-- بطاقة لوحة المتصدرين (Leaderboard) -->
+
+                <!-- بطاقة لوحة المتصدرين -->
                 <div class="bg-brand-card border border-brand-border rounded-3xl p-4 shadow-xl">
                     <div class="flex items-center justify-between pb-3 mb-3 border-b border-brand-border">
                         <h2 class="font-black text-base flex items-center gap-2">
@@ -338,12 +338,10 @@
                         </button>
                     </div>
 
-                    <div id="leaderboard-list" class="space-y-2 max-h-[260px] overflow-y-auto pr-1">
-                        <!-- يتم تعبئته برمجياً -->
-                    </div>
+                    <div id="leaderboard-list" class="space-y-2 max-h-[260px] overflow-y-auto pr-1"></div>
                 </div>
 
-                <!-- بطاقة سجل الشات المباشر (Live Chat Feed) -->
+                <!-- بطاقة سجل الشات المباشر -->
                 <div class="bg-brand-card border border-brand-border rounded-3xl p-4 shadow-xl flex flex-col h-[310px]">
                     <div class="flex items-center justify-between pb-2.5 mb-2 border-b border-brand-border">
                         <h3 class="font-black text-sm flex items-center gap-2">
@@ -364,6 +362,11 @@
         </div>
     </main>
 
+    <!-- تذييل الحقوق -->
+    <footer class="border-t border-brand-border/70 bg-brand-card/50 py-3 px-4 text-center text-xs text-brand-muted">
+        <span>8bjc games</span> — منصة تحدي الشات التفاعلية لبثوث Kick
+    </footer>
+
     <!-- نافذة مساعدة استخراج Chatroom ID -->
     <div id="help-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
         <div class="bg-brand-card border border-brand-purple rounded-3xl max-w-lg w-full p-6 shadow-2xl animate-pop">
@@ -375,14 +378,14 @@
                 <button onclick="closeModal('help-modal')" class="text-brand-muted hover:text-white text-xl font-bold cursor-pointer">✕</button>
             </div>
             <div class="space-y-3 text-xs sm:text-sm text-gray-300 leading-relaxed">
-                <p><strong>الطريقة الأولى (الأسرع):</strong> اكتب اسم قناتك بالإنجليزي (مثل <code class="text-brand-kick font-mono">shongxbong</code>) واضغط <strong>ربط الشات</strong>.</p>
-                <p><strong>الطريقة الثانية (في حال حظر المتصفح للطلب):</strong> أدخل رقم <code class="text-brand-purpleLight font-mono">Chatroom ID</code> مباشرة، حيث يتصل الموقع بخادم WebSocket فوراً دون قيود:</p>
+                <p><strong>الطريقة الأولى (الأسرع):</strong> اكتب اسم قناتك بالإنجليزي (مثل <code class="text-brand-kick font-mono">d7_ll</code>) واضغط <strong>ربط الشات</strong>.</p>
+                <p><strong>الطريقة الثانية (في حال حظر المتصفح للطلب):</strong> أدخل رقم <code class="text-brand-purpleLight font-mono">Chatroom ID</code> مباشرة (مثل <code class="text-brand-kick font-mono">5420539</code>)، حيث يتصل الموقع بخادم WebSocket فوراً دون قيود:</p>
                 <ol class="list-decimal list-inside space-y-1.5 bg-brand-bg p-3.5 rounded-2xl border border-brand-border text-xs">
                     <li>افتح هذا الرابط في متصفحك (مع استبدال اسم قناتك):<br>
                         <code dir="ltr" class="text-brand-kick font-mono block mt-1 select-all">https://kick.com/api/v2/channels/اسم_قناتك</code>
                     </li>
                     <li>ابحث في الصفحة عن كلمة <code class="text-brand-purpleLight font-mono">"chatroom":{"id":1234567</code></li>
-                    <li>انسخ الرقم (مثل <code class="font-mono text-white">1234567</code>) وألصقه في خانة الربط بالأعلى!</li>
+                    <li>انسخ الرقم وألصقه في خانة الربط بالأعلى!</li>
                 </ol>
             </div>
             <button onclick="closeModal('help-modal')" class="mt-5 w-full py-2.5 rounded-xl bg-brand-purple hover:bg-brand-purpleDark text-white font-extrabold text-sm transition cursor-pointer">
@@ -423,12 +426,9 @@
 
     <script>
         /**
-         * ============================================================================
-         * 1. بنك الأسئلة والألغاز والتخمين (محتوى عربي وخليجي غني ومتنوع)
-         * ============================================================================
+         * 1. بنك الأسئلة والألغاز والتخمين
          */
         const QUESTION_BANK = [
-            // --- 1. خمن الإيموجي (emoji) ---
             { mode: 'emoji', category: '🎭 خمن الإيموجي (أفلام)', prompt: '🦁👑🌅', answers: ['الاسد الملك', 'الأسد الملك', 'سيمبا', 'lion king'], hints: ['فيلم ديزني شهير بطله شبل صغير', 'اسمه سيمبا وعمه سكار'], points: 100 },
             { mode: 'emoji', category: '🎭 خمن الإيموجي (أفلام)', prompt: '🚢🧊💔🎻', answers: ['تايتنك', 'تيتانيك', 'titanic'], hints: ['سفينة عملاقة غرقت في المحيط الأطلسي', 'بطولة ليوناردو دي كابريو'], points: 100 },
             { mode: 'emoji', category: '🎭 خمن الإيموجي (ألعاب)', prompt: '⛏️💎🧱🟩', answers: ['ماين كرافت', 'ماينكرافت', 'minecraft'], hints: ['لعبة بناء ومكعبات شهيرة جداً', 'تبحث فيها عن الدايموند وتحذر من الكريبر'], points: 100 },
@@ -445,7 +445,6 @@
             { mode: 'emoji', category: '🎭 خمن الإيموجي (ألعاب)', prompt: '🍄🐢👸🏻🔧', answers: ['سوبر ماريو', 'ماريو', 'mario', 'super mario'], hints: ['سباك إيطالي يقفز لإنقاذ الأميرة بيتش', 'يأكل الفطر ليكبر حجمه'], points: 100 },
             { mode: 'emoji', category: '🎭 خمن الإيموجي (أفلام)', prompt: '🏴‍☠️🧭🚢🦜', answers: ['قراصنة الكاريبي', 'جاك سبارو', 'pirates of the caribbean'], hints: ['سلسلة أفلام قراصنة شهيرة', 'البطل الكابتن جاك سبارو'], points: 100 },
 
-            // --- 2. ألغاز وفوازير (riddle) ---
             { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'شيء يمشي بلا أرجل ويبكي بلا عيون، فما هو؟', answers: ['السحاب', 'الغيم', 'السحابة', 'الغيمة', 'السحب'], hints: ['يوجد في السماء', 'ينزل منه المطر'], points: 120 },
             { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'ما هو الشيء الذي كلما أخذت منه كبر، وكلما أضفت إليه صغر؟', answers: ['الحفرة', 'الحفره'], hints: ['تكون في الأرض أو الرمل', 'نحفرها بالمعول'], points: 120 },
             { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'ما هو الشيء الذي يكتب ولا يقرأ؟', answers: ['القلم', 'قلم'], hints: ['أداة مدرسية أساسية', 'نمسكه باليد للكتابة'], points: 120 },
@@ -462,7 +461,6 @@
             { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'كلما زاد نقص، فما هو؟', answers: ['العمر', 'عمر الانسان'], hints: ['يمر مع السنين', 'يكبر بالسنوات وينقص من الباقي'], points: 120 },
             { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'ما هو الشيء الذي ينبض بلا قلب؟', answers: ['الساعة', 'الساعه'], hints: ['نلبسها في اليد أو نعلقها على الحائط', 'تخبرنا بالوقت'], points: 120 },
 
-            // --- 3. أكمل المثل والجملة (proverb) ---
             { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'اللي ما يعرف الصقر ...', answers: ['يشويه'], hints: ['كلمة واحدة تدل على الطبخ على النار', 'يبدأ بحرف الياء'], points: 100 },
             { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'الباب اللي يجيك منه ريح ...', answers: ['سده واستريح', 'سده و استريح'], hints: ['كلمتان: أغلقه وارتَح', 'تبدأ بـ سده'], points: 100 },
             { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'عصفور باليد خير من ...', answers: ['عشرة على الشجرة', 'عشره على الشجره', 'عشرة فوق الشجرة'], hints: ['رقم 10 ومكان الطيور', 'عشرة على ...'], points: 100 },
@@ -479,7 +477,6 @@
             { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'رضينا بالهم والهم ما ...', answers: ['رضي فينا', 'رضى فينا', 'رضي بنا'], hints: ['لم يقبل بنا', 'رضي ...'], points: 100 },
             { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'الجار قبل ...', answers: ['الدار'], hints: ['المنزل أو البيت', 'على وزن الجار'], points: 100 },
 
-            // --- 4. خمن من أنا؟ تلميحات متدرجة (who) ---
             { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: وُلدت في جزيرة ماديرا عام 1985...', answers: ['كريستيانو', 'رونالدو', 'كريستيانو رونالدو', 'الدون', 'cristiano', 'ronaldo'], hints: ['التلميح الثاني: الهداف التاريخي لدوري أبطال أوروبا وريال مدريد', 'التلميح الثالث: ألعب حالياً في نادي النصر السعودي واحتفالي الشهير SIUUU'], points: 150 },
             { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أُلقب بـ "كوكب الأرض المصغر" لتنوع تضاريسي...', answers: ['المغرب', 'المملكة المغربية', 'المغرب العربي'], hints: ['التلميح الثاني: منتخب بلادي وصل نصف نهائي كأس العالم 2022 كأول فريق عربي وأفريقي', 'التلميح الثالث: عاصمتي الرباط وأشهر مدني مراكش والدار البيضاء'], points: 150 },
             { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: صدرتُ عام 2013 وأُعتبر من أكثر الألعاب مبيعاً في التاريخ...', answers: ['قراند', 'قراند 5', 'gta', 'gta 5', 'gta v', 'حرامي السيارات'], hints: ['التلميح الثاني: تدور أحداثي في مدينة لوس سانتوس الخيالية', 'التلميح الثالث: أبطالي الثلاثة هم مايكل وتريفور وفرانكلين'], points: 150 },
@@ -498,33 +495,31 @@
         ];
 
         /**
-         * ============================================================================
-         * 2. حالة اللعبة والمتغيرات العامة (Game State)
-         * ============================================================================
+         * 2. حالة اللعبة والمتغيرات العامة
          */
-        let selectedMode = 'all';         // الوضع المختار حالياً
-        let currentQuestion = null;       // السؤال المعروض حالياً
-        let isRoundActive = false;        // هل الجولة جارية وتنتظر إجابات؟
-        let roundDuration = 30;           // مدة الجولة بالثواني
-        let timeLeft = 30;                // الوقت المتبقي
-        let timerInterval = null;         // مؤقت الجولة
-        let revealedHintsCount = 0;       // عدد التلميحات المكشوفة
-        let currentPointsValue = 100;     // النقاط الحالية للسؤال (تقل مع كشف التلميحات)
-        let usedQuestionIndices = new Set(); // لتجنب تكرار الأسئلة في نفس الجلسة
+        let selectedMode = 'all';
+        let currentQuestion = null;
+        let isRoundActive = false;
+        let roundDuration = 30;
+        let timeLeft = 30;
+        let timerInterval = null;
+        let revealedHintsCount = 0;
+        let currentPointsValue = 100;
+        let usedQuestionIndices = new Set();
 
-        // لوحة المتصدرين (تُحفظ في localStorage)
         let leaderboard = JSON.parse(localStorage.getItem('kick_chat_leaderboard') || '{}');
 
         // متغيرات الاتصال بـ Kick WebSocket
         let kickSocket = null;
         let connectedChannelName = '';
+        let currentChatroomId = '';
+        let pingKeepAliveInterval = null;
+        let reconnectTimeout = null;
         let totalChatMessages = 0;
         let isSoundEnabled = true;
 
         /**
-         * ============================================================================
-         * 3. محرك المؤثرات الصوتية المدمج (Web Audio API Synthesizer)
-         * ============================================================================
+         * 3. محرك المؤثرات الصوتية
          */
         let audioCtx = null;
 
@@ -557,10 +552,10 @@
         }
 
         function playSoundWin() {
-            playTone(523.25, 'triangle', 0.25, 0.2, 0);     // C5
-            playTone(659.25, 'triangle', 0.25, 0.2, 0.08);  // E5
-            playTone(783.99, 'triangle', 0.25, 0.2, 0.16);  // G5
-            playTone(1046.5, 'sine', 0.5, 0.25, 0.24);      // C6
+            playTone(523.25, 'triangle', 0.25, 0.2, 0);
+            playTone(659.25, 'triangle', 0.25, 0.2, 0.08);
+            playTone(783.99, 'triangle', 0.25, 0.2, 0.16);
+            playTone(1046.5, 'sine', 0.5, 0.25, 0.24);
         }
 
         function playSoundHint() {
@@ -585,9 +580,7 @@
         }
 
         /**
-         * ============================================================================
-         * 4. محرك مطابقة الإجابات العربية الذكي (Arabic Smart Normalization)
-         * ============================================================================
+         * 4. محرك مطابقة الإجابات العربية الذكي
          */
         function normalizeArabicText(text) {
             if (!text) return '';
@@ -595,19 +588,12 @@
                 .toString()
                 .toLowerCase()
                 .trim()
-                // إزالة التشكيل والحركات
                 .replace(/[\u064B-\u065F\u0670]/g, '')
-                // إزالة التطويل (ـ)
                 .replace(/ـ+/g, '')
-                // توحيد الهمزات والألف
                 .replace(/[أإآٱ]/g, 'ا')
-                // توحيد التاء المربوطة والهاء
                 .replace(/ة/g, 'ه')
-                // توحيد الألف المقصورة والياء
                 .replace(/ى/g, 'ي')
-                // إزالة علامات الترقيم والرموز
                 .replace(/[^\w\s\u0600-\u06FF]/g, ' ')
-                // توحيد المسافات
                 .replace(/\s+/g, ' ')
                 .trim();
         }
@@ -626,12 +612,10 @@
                 if (!normAns) continue;
                 const normAnsNoAl = stripAlPrefix(normAns);
 
-                // 1. تطابق تام (مع أو بدون "ال" التعريف)
                 if (normUser === normAns || normUserNoAl === normAnsNoAl) {
                     return true;
                 }
 
-                // 2. إذا كانت الإجابة كلمة واحدة أو أكثر ووردت بوضوح داخل رسالة المتابع
                 if (normAnsNoAl.length >= 3) {
                     const userWords = normUser.split(' ').map(stripAlPrefix);
                     if (normAnsNoAl.split(' ').length === 1 && userWords.includes(normAnsNoAl)) {
@@ -646,9 +630,7 @@
         }
 
         /**
-         * ============================================================================
-         * 5. منطق الجولات، التلميحات، والعد التنازلي
-         * ============================================================================
+         * 5. منطق الجولات والتلميحات والعد التنازلي
          */
         function selectGameMode(mode) {
             selectedMode = mode;
@@ -688,20 +670,17 @@
             currentPointsValue = currentQuestion.points || 100;
             timeLeft = roundDuration;
 
-            // إعادة ضبط واجهة البطاقة
             const arena = document.getElementById('arena-card');
             arena.classList.remove('winner-card-glow');
             document.getElementById('round-result-banner').classList.add('hidden');
             document.getElementById('hints-container').innerHTML = '';
 
-            // تحديث النصوص والشارات
             document.getElementById('q-category-badge').textContent = currentQuestion.category;
             updatePointsBadge();
 
             const mainDisplay = document.getElementById('q-main-display');
             mainDisplay.textContent = currentQuestion.prompt;
 
-            // تكبير الخط إذا كان إيموجي فقط
             if (currentQuestion.mode === 'emoji') {
                 mainDisplay.className = 'text-6xl sm:text-7xl py-3 animate-float select-none';
                 document.getElementById('q-subtitle').textContent = 'خمن ما ترمز إليه هذه الإيموجيز واكتب الحل في الشات!';
@@ -713,18 +692,15 @@
                 document.getElementById('q-subtitle').textContent = 'أول شخص يكتب الإجابة الصحيحة في الشات يفوز بالنقاط!';
             }
 
-            // تفعيل أزرار التلميح وكشف الحل
             const hasHints = currentQuestion.hints && currentQuestion.hints.length > 0;
             document.getElementById('btn-reveal-hint').disabled = !hasHints;
             document.getElementById('btn-reveal-answer').disabled = false;
 
-            // تشغيل العداد التنازلي
             updateTimerUI();
             timerInterval = setInterval(() => {
                 timeLeft--;
                 updateTimerUI();
 
-                // كشف تلميح تلقائي في نمط "خمن من أنا" كل 10 ثوانٍ
                 if (currentQuestion.mode === 'who' && (timeLeft === 20 || timeLeft === 10)) {
                     revealNextHint(true);
                 }
@@ -746,7 +722,6 @@
             const hintText = currentQuestion.hints[revealedHintsCount];
             revealedHintsCount++;
 
-            // تقليل النقاط المتاحة بنسبة 25% عند كشف كل تلميح لزيادة الحماس
             currentPointsValue = Math.max(40, Math.round(currentPointsValue * 0.75));
             updatePointsBadge();
             playSoundHint();
@@ -769,7 +744,6 @@
 
             playSoundWin();
 
-            // إضافة النقاط للمتابع في لوحة المتصدرين
             if (!leaderboard[username]) {
                 leaderboard[username] = { points: 0, wins: 0 };
             }
@@ -777,7 +751,6 @@
             leaderboard[username].wins += 1;
             saveAndRenderLeaderboard();
 
-            // تحديث الواجهة للاحتفال بالفائز
             const arena = document.getElementById('arena-card');
             arena.classList.add('winner-card-glow');
 
@@ -831,9 +804,7 @@
         }
 
         /**
-         * ============================================================================
-         * 6. معالجة رسائل الشات القادمة (من Kick أو المحاكي)
-         * ============================================================================
+         * 6. معالجة رسائل الشات القادمة
          */
         function processChatMessage(username, message) {
             totalChatMessages++;
@@ -871,10 +842,19 @@
         }
 
         /**
-         * ============================================================================
-         * 7. الربط المباشر بشات Kick عبر Pusher WebSocket
-         * ============================================================================
+         * 7. الربط المباشر بشات Kick عبر Pusher WebSocket (مستقر مع نبض وإعادة اتصال)
          */
+        function clearSocketTimers() {
+            if (pingKeepAliveInterval) {
+                clearInterval(pingKeepAliveInterval);
+                pingKeepAliveInterval = null;
+            }
+            if (reconnectTimeout) {
+                clearTimeout(reconnectTimeout);
+                reconnectTimeout = null;
+            }
+        }
+
         async function handleKickConnect() {
             const raw = document.getElementById('kick-input').value.trim();
             if (!raw) {
@@ -908,46 +888,93 @@
             }
         }
 
-        function connectPusherByChatroomId(chatroomId, labelName) {
-            if (kickSocket) kickSocket.close();
+        function connectPusherByChatroomId(chatroomId, labelName, isReconnect = false) {
+            clearSocketTimers();
+
+            if (kickSocket) {
+                try {
+                    kickSocket.onclose = null;
+                    kickSocket.close();
+                } catch (e) {}
+                kickSocket = null;
+            }
+
             connectedChannelName = labelName;
+            currentChatroomId = String(chatroomId).trim();
+
+            if (!isReconnect) {
+                updateConnectionUI('connecting', `جاري الاتصال بـ ${labelName}...`);
+            }
 
             const wsUrl = 'wss://ws-us2.pusher.com/app/32cbd69e4b950bf97679?protocol=7&client=js&version=8.4.0-rc2&flash=false';
-            kickSocket = new WebSocket(wsUrl);
+            const socket = new WebSocket(wsUrl);
+            kickSocket = socket;
 
-            kickSocket.onopen = () => {
-                kickSocket.send(JSON.stringify({
+            socket.onopen = () => {
+                if (kickSocket !== socket) return;
+
+                socket.send(JSON.stringify({
                     event: 'pusher:subscribe',
-                    data: { auth: '', channel: `chatrooms.${chatroomId}.v2` }
+                    data: { auth: '', channel: `chatrooms.${currentChatroomId}.v2` }
                 }));
+
+                // إرسال نبضة pong كل 25 ثانية لإبقاء الاتصال مفتوحاً
+                pingKeepAliveInterval = setInterval(() => {
+                    if (socket.readyState === WebSocket.OPEN) {
+                        try {
+                            socket.send(JSON.stringify({ event: 'pusher:pong', data: {} }));
+                        } catch (e) {}
+                    }
+                }, 25000);
 
                 updateConnectionUI('connected', `متصل: ${labelName}`);
                 document.getElementById('btn-connect').classList.add('hidden');
                 document.getElementById('btn-disconnect').classList.remove('hidden');
-                showToast(`تم الاتصال بشات ${labelName} بنجاح! ابدأ الجولة الآن.`, 'success');
+
+                if (!isReconnect) {
+                    showToast(`تم الاتصال بشات ${labelName} بنجاح! ابدأ الجولة الآن.`, 'success');
+                }
             };
 
-            kickSocket.onmessage = (event) => {
+            socket.onmessage = (event) => {
+                if (kickSocket !== socket) return;
                 try {
                     const payload = JSON.parse(event.data);
                     if (payload.event === 'pusher:ping') {
-                        kickSocket.send(JSON.stringify({ event: 'pusher:pong', data: {} }));
+                        socket.send(JSON.stringify({ event: 'pusher:pong', data: {} }));
                         return;
                     }
                     if (payload.event === 'App\\Events\\ChatMessageEvent') {
-                        const msgObj = JSON.parse(payload.data);
+                        const msgObj = typeof payload.data === 'string' ? JSON.parse(payload.data) : payload.data;
                         const sender = msgObj?.sender?.username;
                         const text = msgObj?.content;
-                        if (sender && text) {
-                            processChatMessage(sender, text);
+                        if (sender && text !== undefined) {
+                            processChatMessage(sender, String(text));
                         }
                     }
                 } catch (e) {}
             };
 
-            kickSocket.onclose = () => {
-                if (connectedChannelName) {
-                    updateConnectionUI('disconnected', 'تم قطع الاتصال');
+            socket.onerror = () => {
+                if (kickSocket !== socket) return;
+                updateConnectionUI('connecting', `محاولة تثبيت الاتصال بـ ${labelName}...`);
+            };
+
+            socket.onclose = () => {
+                if (kickSocket !== socket) return;
+                clearSocketTimers();
+                kickSocket = null;
+
+                // إذا كان المستخدم متصلاً بقناة، نحاول إعادة الاتصال تلقائياً بعد 3 ثوانٍ
+                if (connectedChannelName && currentChatroomId) {
+                    updateConnectionUI('connecting', `إعادة اتصال بـ ${connectedChannelName}...`);
+                    reconnectTimeout = setTimeout(() => {
+                        if (connectedChannelName && currentChatroomId) {
+                            connectPusherByChatroomId(currentChatroomId, connectedChannelName, true);
+                        }
+                    }, 3000);
+                } else {
+                    updateConnectionUI('disconnected', 'وضع التجربة (غير متصل)');
                     document.getElementById('btn-connect').classList.remove('hidden');
                     document.getElementById('btn-disconnect').classList.add('hidden');
                 }
@@ -956,10 +983,17 @@
 
         function disconnectKick() {
             connectedChannelName = '';
+            currentChatroomId = '';
+            clearSocketTimers();
+
             if (kickSocket) {
-                kickSocket.close();
+                try {
+                    kickSocket.onclose = null;
+                    kickSocket.close();
+                } catch (e) {}
                 kickSocket = null;
             }
+
             updateConnectionUI('disconnected', 'وضع التجربة (غير متصل)');
             document.getElementById('btn-connect').classList.remove('hidden');
             document.getElementById('btn-disconnect').classList.add('hidden');
@@ -978,6 +1012,9 @@
             } else if (state === 'connecting') {
                 dot.classList.add('bg-brand-purpleLight', 'animate-bounce');
                 label.className = 'text-brand-purpleLight';
+            } else if (state === 'error') {
+                dot.classList.add('bg-red-500');
+                label.className = 'text-red-400';
             } else {
                 dot.classList.add('bg-amber-400');
                 label.className = 'text-amber-300';
@@ -985,9 +1022,7 @@
         }
 
         /**
-         * ============================================================================
          * 8. إدارة لوحة المتصدرين والمحاكاة والنوافذ المنبثقة
-         * ============================================================================
          */
         function saveAndRenderLeaderboard() {
             localStorage.setItem('kick_chat_leaderboard', JSON.stringify(leaderboard));
@@ -1124,7 +1159,6 @@
                 .replace(/'/g, '&#039;');
         }
 
-        // تهيئة التطبيق عند التحميل
         window.onload = () => {
             renderLeaderboard();
             startNewRound();
