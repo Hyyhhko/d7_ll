@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- مكتبة Pusher الرسمية -->
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -122,7 +124,7 @@
                 </div>
 
                 <div class="relative flex-1 min-w-[200px] max-w-xs">
-                    <input type="text" id="kick-input" placeholder="اسم قناتك أو رقم Chatroom ID" dir="auto"
+                    <input type="text" id="kick-input" value="5420539" placeholder="رقم Chatroom ID (مثال: 5420539)" dir="auto"
                         class="w-full bg-brand-bg border border-brand-border focus:border-brand-kick rounded-xl py-2 px-3.5 text-sm font-bold text-white placeholder-brand-muted/60 focus:outline-none transition">
                 </div>
 
@@ -346,14 +348,13 @@
                 <button onclick="closeModal('help-modal')" class="text-brand-muted hover:text-white text-xl font-bold cursor-pointer">✕</button>
             </div>
             <div class="space-y-3 text-xs sm:text-sm text-gray-300 leading-relaxed">
-                <p><strong>الطريقة الأولى (الأسرع):</strong> اكتب اسم قناتك بالإنجليزي (مثل <code class="text-brand-kick font-mono">d7_ll</code>) واضغط <strong>ربط الشات</strong>.</p>
-                <p><strong>الطريقة الثانية (في حال حظر المتصفح للطلب):</strong> أدخل رقم <code class="text-brand-purpleLight font-mono">Chatroom ID</code> مباشرة (مثل <code class="text-brand-kick font-mono">5420539</code>)، حيث يتصل الموقع بخادم WebSocket فوراً دون قيود:</p>
+                <p>يستخدم الربط رقم <code class="text-brand-purpleLight font-mono">Chatroom ID</code> مباشرة عبر مكتبة Pusher الرسمية (المضبوط حالياً على <code class="text-brand-kick font-mono">5420539</code> لقناة <code class="text-brand-kick font-mono">d7_ll</code>).</p>
                 <ol class="list-decimal list-inside space-y-1.5 bg-brand-bg p-3.5 rounded-2xl border border-brand-border text-xs">
-                    <li>افتح هذا الرابط في متصفحك (مع استبدال اسم قناتك):<br>
-                        <code dir="ltr" class="text-brand-kick font-mono block mt-1 select-all">https://kick.com/api/v2/channels/اسم_قناتك</code>
+                    <li>إذا أردت رقم غرفة قناة أخرى، افتح الرابط التالي في المتصفح:<br>
+                        <code dir="ltr" class="text-brand-kick font-mono block mt-1 select-all">https://kick.com/api/v2/channels/اسم_القناة</code>
                     </li>
-                    <li>ابحث في الصفحة عن كلمة <code class="text-brand-purpleLight font-mono">"chatroom":{"id":1234567</code></li>
-                    <li>انسخ الرقم وألصقه في خانة الربط بالأعلى!</li>
+                    <li>ابحث في الصفحة عن <code class="text-brand-purpleLight font-mono">"chatroom":{"id":</code> وانسخ الرقم.</li>
+                    <li>ألصق الرقم في خانة الربط بالأعلى واضغط <strong>ربط الشات</strong>.</li>
                 </ol>
             </div>
             <button onclick="closeModal('help-modal')" class="mt-5 w-full py-2.5 rounded-xl bg-brand-purple hover:bg-brand-purpleDark text-white font-extrabold text-sm transition cursor-pointer">
@@ -470,10 +471,10 @@
 
         let leaderboard = JSON.parse(localStorage.getItem('kick_chat_leaderboard') || '{}');
 
-        let kickSocket = null;
+        // متغيرات Pusher الرسمية
+        let pusherInstance = null;
+        let pusherChannel = null;
         let connectedChannelName = '';
-        let currentChatroomId = '';
-        let pingKeepAliveInterval = null;
         let totalChatMessages = 0;
         let isSoundEnabled = true;
 
@@ -788,19 +789,11 @@
             }
         }
 
-        function clearSocketKeepAlive() {
-            if (pingKeepAliveInterval) {
-                clearInterval(pingKeepAliveInterval);
-                pingKeepAliveInterval = null;
-            }
-        }
-
+        /**
+         * الربط عبر مكتبة Pusher الرسمية برقم Chatroom ID (الافتراضي 5420539)
+         */
         async function handleKickConnect() {
-            const raw = document.getElementById('kick-input').value.trim();
-            if (!raw) {
-                showToast('اكتب اسم قناتك على Kick أو رقم Chatroom ID أولاً!', 'warning');
-                return;
-            }
+            const raw = document.getElementById('kick-input').value.trim() || '5420539';
 
             if (/^\d+$/.test(raw)) {
                 connectPusherByChatroomId(raw, `غرفة #${raw}`);
@@ -808,147 +801,110 @@
             }
 
             const username = raw.replace(/^(https?:\/\/)?(www\.)?kick\.com\//i, '').replace(/\/$/, '').toLowerCase();
-            document.getElementById('kick-input').value = username;
             updateConnectionUI('connecting', `جاري البحث عن ${username}...`);
 
             try {
                 const res = await fetch(`https://kick.com/api/v2/channels/${encodeURIComponent(username)}`, {
                     headers: { 'Accept': 'application/json' }
                 });
-                if (!res.ok) throw new Error('API Blocked or Not Found');
+                if (!res.ok) throw new Error('API Blocked');
                 const data = await res.json();
                 if (!data?.chatroom?.id) throw new Error('No Chatroom ID');
-
                 connectPusherByChatroomId(data.chatroom.id, username);
             } catch (err) {
-                updateConnectionUI('error', 'استخدم رقم Chatroom ID');
-                showToast('المتصفح منع جلب البيانات تلقائياً (CORS). اضغط علامة الاستفهام (?) لمعرفة رقم Chatroom ID في ثوانٍ!', 'warning');
+                updateConnectionUI('error', 'أدخل رقم Chatroom ID (مثل 5420539)');
+                showToast('أدخل رقم Chatroom ID مباشرة (مثل 5420539) في خانة الربط.', 'warning');
                 openHelpModal();
             }
         }
 
         function connectPusherByChatroomId(chatroomId, labelName) {
-            clearSocketKeepAlive();
+            disconnectKick(true);
 
-            if (kickSocket) {
-                try {
-                    kickSocket.onopen = null;
-                    kickSocket.onmessage = null;
-                    kickSocket.onerror = null;
-                    kickSocket.onclose = null;
-                    kickSocket.close();
-                } catch (e) {}
-                kickSocket = null;
-            }
-
-            connectedChannelName = '';
-            currentChatroomId = String(chatroomId).trim();
+            const roomId = String(chatroomId).trim();
+            const channelName = `chatrooms.${roomId}.v2`;
+            connectedChannelName = labelName;
             updateConnectionUI('connecting', `جاري الاتصال بـ ${labelName}...`);
 
-            const wsUrl = 'wss://ws-us2.pusher.com/app/32cbd69e4b950bf97679?protocol=7&client=js&version=8.4.0-rc2&flash=false';
-            const socket = new WebSocket(wsUrl);
-            kickSocket = socket;
+            if (typeof Pusher === 'undefined') {
+                updateConnectionUI('error', 'تعذر تحميل مكتبة Pusher');
+                showToast('تحقق من الاتصال بالإنترنت لتحميل مكتبة Pusher.', 'warning');
+                return;
+            }
 
-            socket.onopen = () => {
-                if (kickSocket !== socket) return;
+            try {
+                pusherInstance = new Pusher('32cbd69e4b950bf97679', {
+                    cluster: 'us2',
+                    forceTLS: true
+                });
 
-                socket.send(JSON.stringify({
-                    event: 'pusher:subscribe',
-                    data: {
-                        auth: '',
-                        channel: `chatrooms.${currentChatroomId}.v2`
-                    }
-                }));
+                pusherInstance.connection.bind('connected', () => {
+                    updateConnectionUI('connected', `متصل: ${labelName}`);
+                    document.getElementById('btn-connect').classList.add('hidden');
+                    document.getElementById('btn-disconnect').classList.remove('hidden');
+                });
 
-                pingKeepAliveInterval = setInterval(() => {
-                    if (socket.readyState === WebSocket.OPEN) {
-                        try {
-                            socket.send(JSON.stringify({ event: 'pusher:pong', data: {} }));
-                        } catch (e) {}
-                    }
-                }, 20000);
-            };
-
-            socket.onmessage = (event) => {
-                if (kickSocket !== socket) return;
-                try {
-                    const payload = JSON.parse(event.data);
-
-                    if (payload.event === 'pusher:ping') {
-                        socket.send(JSON.stringify({ event: 'pusher:pong', data: {} }));
-                        return;
-                    }
-
-                    if (payload.event === 'pusher_internal:subscription_succeeded') {
-                        connectedChannelName = labelName;
-                        updateConnectionUI('connected', `متصل: ${labelName}`);
-                        document.getElementById('btn-connect').classList.add('hidden');
-                        document.getElementById('btn-disconnect').classList.remove('hidden');
-                        appendChatRow('النظام', `تم تأكيد الاشتراك في الغرفة ${currentChatroomId}`, false);
-                        return;
-                    }
-
-                    if (payload.event === 'pusher:error') {
-                        clearSocketKeepAlive();
-                        updateConnectionUI('error', 'رفض السيرفر الاشتراك');
+                pusherInstance.connection.bind('disconnected', () => {
+                    if (connectedChannelName) {
+                        updateConnectionUI('disconnected', 'تم فصل الاتصال');
                         document.getElementById('btn-connect').classList.remove('hidden');
                         document.getElementById('btn-disconnect').classList.add('hidden');
-                        appendChatRow('النظام', `خطأ Pusher: ${JSON.stringify(payload.data || {})}`, false);
-                        return;
                     }
+                });
 
-                    if (payload.event === 'App\\Events\\ChatMessageEvent') {
-                        const msgObj = typeof payload.data === 'string' ? JSON.parse(payload.data) : payload.data;
-                        const sender = msgObj?.sender?.username;
-                        const text = msgObj?.content;
-                        if (sender && text !== undefined) {
-                            processChatMessage(sender, String(text));
-                        }
+                pusherInstance.connection.bind('error', () => {
+                    updateConnectionUI('error', 'خطأ في اتصال Pusher');
+                });
+
+                pusherChannel = pusherInstance.subscribe(channelName);
+
+                pusherChannel.bind('pusher:subscription_succeeded', () => {
+                    updateConnectionUI('connected', `متصل: ${labelName}`);
+                    document.getElementById('btn-connect').classList.add('hidden');
+                    document.getElementById('btn-disconnect').classList.remove('hidden');
+                    appendChatRow('النظام', `تم الاشتراك بنجاح في الغرفة ${roomId}`, false);
+                    showToast(`تم الربط مع شات ${labelName} بنجاح!`, 'success');
+                });
+
+                pusherChannel.bind('pusher:subscription_error', () => {
+                    updateConnectionUI('error', 'فشل الاشتراك في الغرفة');
+                    appendChatRow('النظام', `تعذر الاشتراك في الغرفة ${roomId}`, false);
+                });
+
+                pusherChannel.bind('App\\Events\\ChatMessageEvent', (msgData) => {
+                    const parsed = typeof msgData === 'string' ? JSON.parse(msgData) : msgData;
+                    const sender = parsed?.sender?.username;
+                    const text = parsed?.content;
+                    if (sender && text !== undefined) {
+                        processChatMessage(sender, String(text));
                     }
-                } catch (e) {}
-            };
-
-            socket.onerror = () => {
-                if (kickSocket !== socket) return;
-                clearSocketKeepAlive();
-                updateConnectionUI('error', 'فشل اتصال WebSocket');
-                document.getElementById('btn-connect').classList.remove('hidden');
-                document.getElementById('btn-disconnect').classList.add('hidden');
-            };
-
-            socket.onclose = (event) => {
-                if (kickSocket !== socket) return;
-                clearSocketKeepAlive();
-                kickSocket = null;
-                connectedChannelName = '';
-                currentChatroomId = '';
-                updateConnectionUI('disconnected', `مغلق (${event.code || 0})`);
-                document.getElementById('btn-connect').classList.remove('hidden');
-                document.getElementById('btn-disconnect').classList.add('hidden');
-                appendChatRow('النظام', `أغلق الاتصال برمز (${event.code || 'بدون رمز'})`, false);
-            };
+                });
+            } catch (e) {
+                updateConnectionUI('error', 'تعذر بدء الاتصال');
+            }
         }
 
-        function disconnectKick() {
+        function disconnectKick(silent = false) {
             connectedChannelName = '';
-            currentChatroomId = '';
-            clearSocketKeepAlive();
+            try {
+                if (pusherInstance && pusherChannel) {
+                    pusherInstance.unsubscribe(pusherChannel.name);
+                }
+                if (pusherInstance) {
+                    pusherInstance.disconnect();
+                }
+            } catch (e) {}
 
-            if (kickSocket) {
-                try {
-                    kickSocket.onopen = null;
-                    kickSocket.onmessage = null;
-                    kickSocket.onerror = null;
-                    kickSocket.onclose = null;
-                    kickSocket.close();
-                } catch (e) {}
-                kickSocket = null;
-            }
+            pusherChannel = null;
+            pusherInstance = null;
 
             updateConnectionUI('disconnected', 'وضع التجربة (غير متصل)');
             document.getElementById('btn-connect').classList.remove('hidden');
             document.getElementById('btn-disconnect').classList.add('hidden');
-            showToast('تم فصل الاتصال عن شات Kick.', 'info');
+
+            if (!silent) {
+                showToast('تم فصل الاتصال عن شات Kick.', 'info');
+            }
         }
 
         function updateConnectionUI(state, text) {
@@ -1110,6 +1066,7 @@
         window.onload = () => {
             renderLeaderboard();
             startNewRound();
+            connectPusherByChatroomId('5420539', 'غرفة #5420539');
         };
     </script>
 </body>
