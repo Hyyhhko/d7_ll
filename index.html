@@ -832,14 +832,16 @@
 
             if (kickSocket) {
                 try {
-                    kickSocket.onclose = null;
+                    kickSocket.onopen = null;
+                    kickSocket.onmessage = null;
                     kickSocket.onerror = null;
+                    kickSocket.onclose = null;
                     kickSocket.close();
                 } catch (e) {}
                 kickSocket = null;
             }
 
-            connectedChannelName = labelName;
+            connectedChannelName = '';
             currentChatroomId = String(chatroomId).trim();
             updateConnectionUI('connecting', `جاري الاتصال بـ ${labelName}...`);
 
@@ -852,7 +854,10 @@
 
                 socket.send(JSON.stringify({
                     event: 'pusher:subscribe',
-                    data: { auth: '', channel: `chatrooms.${currentChatroomId}.v2` }
+                    data: {
+                        auth: '',
+                        channel: `chatrooms.${currentChatroomId}.v2`
+                    }
                 }));
 
                 pingKeepAliveInterval = setInterval(() => {
@@ -862,25 +867,36 @@
                         } catch (e) {}
                     }
                 }, 20000);
-
-                updateConnectionUI('connected', `متصل: ${labelName}`);
-                document.getElementById('btn-connect').classList.add('hidden');
-                document.getElementById('btn-disconnect').classList.remove('hidden');
-                showToast(`تم الاتصال بشات ${labelName} بنجاح! ابدأ الجولة الآن.`, 'success');
             };
 
             socket.onmessage = (event) => {
                 if (kickSocket !== socket) return;
                 try {
                     const payload = JSON.parse(event.data);
+
                     if (payload.event === 'pusher:ping') {
                         socket.send(JSON.stringify({ event: 'pusher:pong', data: {} }));
                         return;
                     }
-                    if (payload.event === 'pusher:error') {
-                        showToast('تأكد من رقم Chatroom ID أو حالة الغرفة على Kick.', 'warning');
+
+                    if (payload.event === 'pusher_internal:subscription_succeeded') {
+                        connectedChannelName = labelName;
+                        updateConnectionUI('connected', `متصل: ${labelName}`);
+                        document.getElementById('btn-connect').classList.add('hidden');
+                        document.getElementById('btn-disconnect').classList.remove('hidden');
+                        appendChatRow('النظام', `تم تأكيد الاشتراك في الغرفة ${currentChatroomId}`, false);
                         return;
                     }
+
+                    if (payload.event === 'pusher:error') {
+                        clearSocketKeepAlive();
+                        updateConnectionUI('error', 'رفض السيرفر الاشتراك');
+                        document.getElementById('btn-connect').classList.remove('hidden');
+                        document.getElementById('btn-disconnect').classList.add('hidden');
+                        appendChatRow('النظام', `خطأ Pusher: ${JSON.stringify(payload.data || {})}`, false);
+                        return;
+                    }
+
                     if (payload.event === 'App\\Events\\ChatMessageEvent') {
                         const msgObj = typeof payload.data === 'string' ? JSON.parse(payload.data) : payload.data;
                         const sender = msgObj?.sender?.username;
@@ -895,18 +911,21 @@
             socket.onerror = () => {
                 if (kickSocket !== socket) return;
                 clearSocketKeepAlive();
-                updateConnectionUI('error', 'تعذر تثبيت الاتصال');
+                updateConnectionUI('error', 'فشل اتصال WebSocket');
+                document.getElementById('btn-connect').classList.remove('hidden');
+                document.getElementById('btn-disconnect').classList.add('hidden');
             };
 
-            socket.onclose = () => {
+            socket.onclose = (event) => {
                 if (kickSocket !== socket) return;
                 clearSocketKeepAlive();
                 kickSocket = null;
                 connectedChannelName = '';
                 currentChatroomId = '';
-                updateConnectionUI('disconnected', 'تم قطع الاتصال');
+                updateConnectionUI('disconnected', `مغلق (${event.code || 0})`);
                 document.getElementById('btn-connect').classList.remove('hidden');
                 document.getElementById('btn-disconnect').classList.add('hidden');
+                appendChatRow('النظام', `أغلق الاتصال برمز (${event.code || 'بدون رمز'})`, false);
             };
         }
 
@@ -917,8 +936,10 @@
 
             if (kickSocket) {
                 try {
-                    kickSocket.onclose = null;
+                    kickSocket.onopen = null;
+                    kickSocket.onmessage = null;
                     kickSocket.onerror = null;
+                    kickSocket.onclose = null;
                     kickSocket.close();
                 } catch (e) {}
                 kickSocket = null;
