@@ -89,7 +89,7 @@
                 </div>
 
                 <div class="relative w-32">
-                    <input type="text" id="chatroom-input" inputmode="numeric" placeholder="رقم الغرفة" dir="ltr"
+                    <input type="text" id="chatroom-input" value="5393201" inputmode="numeric" placeholder="رقم الغرفة" dir="ltr"
                         class="w-full bg-brand-bg border border-brand-border focus:border-brand-kick rounded-xl py-2 px-3 text-sm font-bold text-white placeholder-brand-muted/60 focus:outline-none transition">
                 </div>
 
@@ -566,8 +566,8 @@
             while (feed.children.length > 70) feed.removeChild(feed.firstChild);
         }
 
-        /* ===== ربط شات Kick المباشر عبر Pusher WebSocket ===== */
-        const KICK_PUSHER_URL = 'wss://ws-us2.pusher.com/app/32cbd69e4b950bf97679?protocol=7&client=js&version=8.4.0&flash=false';
+        /* ===== ربط شات Kick المباشر عبر Pusher WebSocket (المفتاح الجديد) ===== */
+        const KICK_PUSHER_URL = 'wss://ws-us2.pusher.com/app/34bf7a0ff419a2a775b9?protocol=7&client=js&version=8.4.0&flash=false';
         let kickSocket = null;
         let kickReconnectTimer = null;
         let kickManualStop = false;
@@ -631,6 +631,14 @@
                     kickSocket.send(JSON.stringify({ event: 'pusher:pong', data: {} }));
                     return;
                 }
+                if (msg.event === 'pusher:error') {
+                    let info = msg.data;
+                    try { if (typeof info === 'string') info = JSON.parse(info); } catch {}
+                    const errText = info?.message || 'خطأ غير معروف';
+                    updateConnectionUI('disconnected', 'خطأ في الاتصال');
+                    appendChatRow('النظام', `خطأ من سيرفر الشات: ${errText}`, false);
+                    return;
+                }
                 if (msg.event === 'pusher_internal:subscription_succeeded') {
                     updateConnectionUI('connected', `متصل: ${slug}`);
                     document.getElementById('btn-connect').classList.add('hidden');
@@ -652,7 +660,7 @@
             kickSocket.onclose = () => {
                 if (kickManualStop) return;
                 updateConnectionUI('connecting', `إعادة الاتصال بـ ${slug}...`);
-                kickReconnectTimer = setTimeout(() => connectKickSocket(slug, chatroomId), 3000);
+                kickReconnectTimer = setTimeout(() => connectKickSocket(slug, chatroomId), 4000);
             };
 
             kickSocket.onerror = () => {};
