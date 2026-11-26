@@ -8,8 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- مكتبة Pusher الرسمية -->
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -52,45 +50,19 @@
             font-family: 'Cairo', sans-serif;
             overflow-x: hidden;
         }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0d0914;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #2b2042;
-            border-radius: 9999px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #8b5cf6;
-        }
-
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-6px); }
-        }
-        .animate-float {
-            animation: floatSlow 3s ease-in-out infinite;
-        }
-
-        @keyframes popReveal {
-            0% { opacity: 0; transform: scale(0.85) translateY(15px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .animate-pop {
-            animation: popReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0d0914; }
+        ::-webkit-scrollbar-thumb { background: #2b2042; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #8b5cf6; }
+        @keyframes floatSlow { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
+        .animate-float { animation: floatSlow 3s ease-in-out infinite; }
+        @keyframes popReveal { 0% { opacity: 0; transform: scale(0.85) translateY(15px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+        .animate-pop { animation: popReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes winnerPulse {
             0%, 100% { box-shadow: 0 0 20px rgba(83, 252, 24, 0.4); border-color: #53fc18; }
             50% { box-shadow: 0 0 45px rgba(83, 252, 24, 0.85); border-color: #ffffff; }
         }
-        .winner-card-glow {
-            animation: winnerPulse 1.5s infinite;
-        }
+        .winner-card-glow { animation: winnerPulse 1.5s infinite; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-brand-kick selection:text-black">
@@ -99,19 +71,12 @@
 
     <header class="bg-brand-card/90 backdrop-blur-md border-b border-brand-border sticky top-0 z-30">
         <div class="max-w-[1650px] mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
-
             <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-purple to-brand-purpleDark flex items-center justify-center text-white font-black text-2xl shadow-purple-glow border border-brand-purpleLight/30 select-none">
-                    ⚡
-                </div>
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-purple to-brand-purpleDark flex items-center justify-center text-white font-black text-2xl shadow-purple-glow border border-brand-purpleLight/30 select-none">⚡</div>
                 <div>
                     <div class="flex items-center gap-2">
-                        <h1 class="text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-l from-white via-purple-200 to-brand-purpleLight bg-clip-text text-transparent">
-                            تحدي الشات
-                        </h1>
-                        <span class="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-brand-kick/15 text-brand-kick border border-brand-kick/30 font-mono">
-                            KICK LIVE
-                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-l from-white via-purple-200 to-brand-purpleLight bg-clip-text text-transparent">تحدي الشات</h1>
+                        <span class="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-brand-kick/15 text-brand-kick border border-brand-kick/30 font-mono">KICK LIVE</span>
                     </div>
                     <p class="text-xs text-brand-muted hidden sm:block">منصة الألغاز، الأمثال، والتخمين التفاعلية للبث المباشر</p>
                 </div>
@@ -120,27 +85,22 @@
             <div class="flex flex-wrap items-center gap-2 flex-1 max-w-3xl justify-end">
                 <div id="status-badge" class="flex items-center gap-2 px-3 py-2 rounded-xl bg-brand-bg border border-brand-border text-xs font-bold">
                     <span id="status-dot" class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                    <span id="status-text" class="text-amber-300">وضع التجربة (غير متصل)</span>
+                    <span id="status-text" class="text-amber-300">غير متصل</span>
                 </div>
 
-                <div class="relative flex-1 min-w-[200px] max-w-xs">
-                    <input type="text" id="kick-input" value="5420539" placeholder="رقم Chatroom ID (مثال: 5420539)" dir="auto"
+                <div class="relative flex-1 min-w-[180px] max-w-xs">
+                    <input type="text" id="kick-input" value="d7_ll" placeholder="اسم قناة Kick (مثال: d7_ll)" dir="auto"
                         class="w-full bg-brand-bg border border-brand-border focus:border-brand-kick rounded-xl py-2 px-3.5 text-sm font-bold text-white placeholder-brand-muted/60 focus:outline-none transition">
                 </div>
 
-                <button onclick="openHelpModal()" title="كيف أجيب رقم Chatroom ID؟"
-                    class="p-2 rounded-xl bg-brand-bg hover:bg-brand-cardHover border border-brand-border text-brand-purpleLight hover:text-white transition cursor-pointer">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </button>
-
-                <button id="btn-connect" onclick="handleKickConnect()"
+                <button id="btn-connect" onclick="startChatPolling()"
                     class="bg-brand-kick hover:bg-brand-kickHover text-black font-black text-sm px-4 py-2 rounded-xl transition active:scale-95 flex items-center gap-1.5 shadow-kick-glow cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                     <span>ربط الشات</span>
                 </button>
-                <button id="btn-disconnect" onclick="disconnectKick()"
+                <button id="btn-disconnect" onclick="stopChatPolling()"
                     class="hidden bg-red-500/15 hover:bg-red-500/25 text-red-400 border border-red-500/30 font-bold text-sm px-3 py-2 rounded-xl transition cursor-pointer">
-                    قطع الاتصال
+                    إيقاف
                 </button>
 
                 <button onclick="toggleSound()" id="btn-sound" title="المؤثرات الصوتية"
@@ -153,85 +113,49 @@
     </header>
 
     <main class="flex-1 max-w-[1650px] w-full mx-auto p-4 flex flex-col gap-5">
-
         <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            <button onclick="selectGameMode('all')" id="mode-btn-all"
-                class="mode-card group relative overflow-hidden rounded-2xl p-3.5 text-right border-2 border-brand-purple bg-brand-card shadow-purple-glow transition-all cursor-pointer">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-2xl">🎲</span>
-                    <span class="text-[10px] font-extrabold bg-brand-purple text-white px-2 py-0.5 rounded-full">شامل</span>
-                </div>
+            <button onclick="selectGameMode('all')" id="mode-btn-all" class="mode-card group relative overflow-hidden rounded-2xl p-3.5 text-right border-2 border-brand-purple bg-brand-card shadow-purple-glow transition-all cursor-pointer">
+                <div class="flex items-center justify-between mb-1"><span class="text-2xl">🎲</span><span class="text-[10px] font-extrabold bg-brand-purple text-white px-2 py-0.5 rounded-full">شامل</span></div>
                 <div class="font-black text-sm sm:text-base text-white">الوضع الشامل (مكس)</div>
                 <div class="text-[11px] text-brand-muted mt-0.5">تشكيلة عشوائية من كل الألعاب</div>
             </button>
-
-            <button onclick="selectGameMode('emoji')" id="mode-btn-emoji"
-                class="mode-card group relative overflow-hidden rounded-2xl p-3.5 text-right border border-brand-border bg-brand-card hover:bg-brand-cardHover transition-all cursor-pointer">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-2xl">🎭</span>
-                    <span class="text-[10px] font-bold bg-brand-bg text-brand-purpleLight border border-brand-border px-2 py-0.5 rounded-full">تخمين</span>
-                </div>
+            <button onclick="selectGameMode('emoji')" id="mode-btn-emoji" class="mode-card group relative overflow-hidden rounded-2xl p-3.5 text-right border border-brand-border bg-brand-card hover:bg-brand-cardHover transition-all cursor-pointer">
+                <div class="flex items-center justify-between mb-1"><span class="text-2xl">🎭</span><span class="text-[10px] font-bold bg-brand-bg text-brand-purpleLight border border-brand-border px-2 py-0.5 rounded-full">تخمين</span></div>
                 <div class="font-black text-sm sm:text-base text-white">خمن الإيموجي</div>
                 <div class="text-[11px] text-brand-muted mt-0.5">أفلام، ألعاب، دول، ومشاهير</div>
             </button>
-
-            <button onclick="selectGameMode('riddle')" id="mode-btn-riddle"
-                class="mode-card group relative overflow-hidden rounded-2xl p-3.5 text-right border border-brand-border bg-brand-card hover:bg-brand-cardHover transition-all cursor-pointer">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-2xl">🧠</span>
-                    <span class="text-[10px] font-bold bg-brand-bg text-brand-kick border border-brand-border px-2 py-0.5 rounded-full">ذكاء</span>
-                </div>
+            <button onclick="selectGameMode('riddle')" id="mode-btn-riddle" class="mode-card group relative overflow-hidden rounded-2xl p-3.5 text-right border border-brand-border bg-brand-card hover:bg-brand-cardHover transition-all cursor-pointer">
+                <div class="flex items-center justify-between mb-1"><span class="text-2xl">🧠</span><span class="text-[10px] font-bold bg-brand-bg text-brand-kick border border-brand-border px-2 py-0.5 rounded-full">ذكاء</span></div>
                 <div class="font-black text-sm sm:text-base text-white">ألغاز وفوازير</div>
                 <div class="text-[11px] text-brand-muted mt-0.5">ألغاز ذكية تختبر سرعة الشات</div>
             </button>
-
-            <button onclick="selectGameMode('proverb')" id="mode-btn-proverb"
-                class="mode-card group relative overflow-hidden rounded-2xl p-3.5 text-right border border-brand-border bg-brand-card hover:bg-brand-cardHover transition-all cursor-pointer">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-2xl">📜</span>
-                    <span class="text-[10px] font-bold bg-brand-bg text-amber-300 border border-brand-border px-2 py-0.5 rounded-full">ثقافة</span>
-                </div>
+            <button onclick="selectGameMode('proverb')" id="mode-btn-proverb" class="mode-card group relative overflow-hidden rounded-2xl p-3.5 text-right border border-brand-border bg-brand-card hover:bg-brand-cardHover transition-all cursor-pointer">
+                <div class="flex items-center justify-between mb-1"><span class="text-2xl">📜</span><span class="text-[10px] font-bold bg-brand-bg text-amber-300 border border-brand-border px-2 py-0.5 rounded-full">ثقافة</span></div>
                 <div class="font-black text-sm sm:text-base text-white">أكمل المثل والجملة</div>
                 <div class="text-[11px] text-brand-muted mt-0.5">أمثال خليجية وعربية ومعلومات</div>
             </button>
-
-            <button onclick="selectGameMode('who')" id="mode-btn-who"
-                class="mode-card col-span-2 sm:col-span-1 group relative overflow-hidden rounded-2xl p-3.5 text-right border border-brand-border bg-brand-card hover:bg-brand-cardHover transition-all cursor-pointer">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-2xl">🕵️‍♂️</span>
-                    <span class="text-[10px] font-bold bg-brand-bg text-pink-400 border border-brand-border px-2 py-0.5 rounded-full">تلميحات</span>
-                </div>
+            <button onclick="selectGameMode('who')" id="mode-btn-who" class="mode-card col-span-2 sm:col-span-1 group relative overflow-hidden rounded-2xl p-3.5 text-right border border-brand-border bg-brand-card hover:bg-brand-cardHover transition-all cursor-pointer">
+                <div class="flex items-center justify-between mb-1"><span class="text-2xl">🕵️‍♂️</span><span class="text-[10px] font-bold bg-brand-bg text-pink-400 border border-brand-border px-2 py-0.5 rounded-full">تلميحات</span></div>
                 <div class="font-black text-sm sm:text-base text-white">خمن من أنا؟</div>
                 <div class="text-[11px] text-brand-muted mt-0.5">3 تلميحات متدرجة والنقاط تقل!</div>
             </button>
         </section>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-
             <section class="lg:col-span-8 flex flex-col gap-4">
-
                 <div id="arena-card" class="bg-brand-card border-2 border-brand-border rounded-3xl p-5 sm:p-8 shadow-2xl relative overflow-hidden min-h-[430px] flex flex-col justify-between transition-all">
-
                     <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-brand-border/80">
                         <div class="flex items-center gap-2">
-                            <span id="q-category-badge" class="px-3 py-1 rounded-xl bg-brand-purple/20 border border-brand-purple/40 text-brand-purpleLight text-xs font-extrabold">
-                                🎭 خمن الإيموجي
-                            </span>
-                            <span id="q-points-badge" class="px-3 py-1 rounded-xl bg-brand-kick/15 border border-brand-kick/30 text-brand-kick text-xs font-black font-mono">
-                                +100 نقطة
-                            </span>
+                            <span id="q-category-badge" class="px-3 py-1 rounded-xl bg-brand-purple/20 border border-brand-purple/40 text-brand-purpleLight text-xs font-extrabold">🎭 خمن الإيموجي</span>
+                            <span id="q-points-badge" class="px-3 py-1 rounded-xl bg-brand-kick/15 border border-brand-kick/30 text-brand-kick text-xs font-black font-mono">+100 نقطة</span>
                         </div>
-
                         <div class="flex items-center gap-3">
                             <div class="flex items-center gap-1.5 bg-brand-bg border border-brand-border px-3 py-1.5 rounded-xl">
                                 <span class="text-xs text-brand-muted">الوقت:</span>
                                 <span id="timer-text" class="text-base font-black font-mono text-white">30</span>
                                 <span class="text-xs text-brand-muted">ث</span>
                             </div>
-                            <button onclick="openCustomQuestionModal()"
-                                class="px-3 py-1.5 rounded-xl bg-brand-bg hover:bg-brand-cardHover border border-brand-border text-xs font-bold text-brand-purpleLight hover:text-white transition cursor-pointer">
-                                + سؤال مخصص
-                            </button>
+                            <button onclick="openCustomQuestionModal()" class="px-3 py-1.5 rounded-xl bg-brand-bg hover:bg-brand-cardHover border border-brand-border text-xs font-bold text-brand-purpleLight hover:text-white transition cursor-pointer">+ سؤال مخصص</button>
                         </div>
                     </div>
 
@@ -240,14 +164,8 @@
                     </div>
 
                     <div id="question-stage" class="my-auto py-4 text-center flex flex-col items-center justify-center gap-4">
-                        <div id="q-subtitle" class="text-xs sm:text-sm font-bold text-brand-purpleLight bg-brand-purple/10 px-4 py-1 rounded-full">
-                            اكتب الإجابة الصحيحة في شات البث مباشرة!
-                        </div>
-
-                        <div id="q-main-display" class="text-3xl sm:text-5xl font-black text-white leading-snug tracking-wide max-w-2xl mx-auto">
-                            اضغط "بدء الجولة" لبدء التحدي!
-                        </div>
-
+                        <div id="q-subtitle" class="text-xs sm:text-sm font-bold text-brand-purpleLight bg-brand-purple/10 px-4 py-1 rounded-full">اكتب الإجابة الصحيحة في شات البث مباشرة!</div>
+                        <div id="q-main-display" class="text-3xl sm:text-5xl font-black text-white leading-snug tracking-wide max-w-2xl mx-auto">اضغط "بدء الجولة" لبدء التحدي!</div>
                         <div id="hints-container" class="w-full max-w-xl flex flex-col gap-2 mt-2"></div>
                     </div>
 
@@ -258,19 +176,14 @@
                     </div>
 
                     <div class="pt-4 mt-4 border-t border-brand-border/80 flex flex-wrap items-center justify-center gap-3">
-                        <button id="btn-start-round" onclick="startNewRound()"
-                            class="flex-1 min-w-[160px] py-3.5 px-6 rounded-2xl bg-brand-kick hover:bg-brand-kickHover text-black font-black text-base shadow-kick-glow transition active:scale-95 flex items-center justify-center gap-2 cursor-pointer">
+                        <button id="btn-start-round" onclick="startNewRound()" class="flex-1 min-w-[160px] py-3.5 px-6 rounded-2xl bg-brand-kick hover:bg-brand-kickHover text-black font-black text-base shadow-kick-glow transition active:scale-95 flex items-center justify-center gap-2 cursor-pointer">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             <span>بدء الجولة / التالي</span>
                         </button>
-
-                        <button id="btn-reveal-hint" onclick="revealNextHint()" disabled
-                            class="py-3.5 px-5 rounded-2xl bg-brand-purple/20 hover:bg-brand-purple/30 disabled:opacity-40 disabled:cursor-not-allowed border border-brand-purple/50 text-brand-purpleLight font-extrabold text-sm transition flex items-center gap-2 cursor-pointer">
+                        <button id="btn-reveal-hint" onclick="revealNextHint()" disabled class="py-3.5 px-5 rounded-2xl bg-brand-purple/20 hover:bg-brand-purple/30 disabled:opacity-40 disabled:cursor-not-allowed border border-brand-purple/50 text-brand-purpleLight font-extrabold text-sm transition flex items-center gap-2 cursor-pointer">
                             <span>💡 كشف تلميح</span>
                         </button>
-
-                        <button id="btn-reveal-answer" onclick="endRoundWithoutWinner()" disabled
-                            class="py-3.5 px-5 rounded-2xl bg-brand-bg hover:bg-brand-cardHover disabled:opacity-40 disabled:cursor-not-allowed border border-brand-border text-brand-muted hover:text-white font-bold text-sm transition cursor-pointer">
+                        <button id="btn-reveal-answer" onclick="endRoundWithoutWinner()" disabled class="py-3.5 px-5 rounded-2xl bg-brand-bg hover:bg-brand-cardHover disabled:opacity-40 disabled:cursor-not-allowed border border-brand-border text-brand-muted hover:text-white font-bold text-sm transition cursor-pointer">
                             👁️ إظهار الحل
                         </button>
                     </div>
@@ -279,57 +192,37 @@
                 <div class="bg-brand-card border border-brand-border rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
                     <div class="flex items-center gap-2 text-xs font-bold text-brand-purpleLight shrink-0">
                         <span class="w-2 h-2 rounded-full bg-brand-kick animate-ping"></span>
-                        <span>محاكي الشات (للتجربة):</span>
+                        <span>محاكي الشات:</span>
                     </div>
                     <form onsubmit="handleSimulatedSubmit(event)" class="flex flex-1 w-full gap-2">
-                        <input type="text" id="sim-user" value="Saud_KSA" placeholder="اسم المتابع"
-                            class="w-28 sm:w-36 bg-brand-bg border border-brand-border rounded-xl px-3 py-2 text-xs font-bold text-brand-kick focus:outline-none">
-                        <input type="text" id="sim-msg" placeholder="اكتب تخمينك هنا للتجربة..."
-                            class="flex-1 bg-brand-bg border border-brand-border focus:border-brand-purple rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
-                        <button type="submit"
-                            class="bg-brand-purple hover:bg-brand-purpleDark text-white font-extrabold text-xs px-4 py-2 rounded-xl transition cursor-pointer">
-                            إرسال
-                        </button>
+                        <input type="text" id="sim-user" value="Saud_KSA" placeholder="اسم المتابع" class="w-28 sm:w-36 bg-brand-bg border border-brand-border rounded-xl px-3 py-2 text-xs font-bold text-brand-kick focus:outline-none">
+                        <input type="text" id="sim-msg" placeholder="اكتب تخمينك هنا..." class="flex-1 bg-brand-bg border border-brand-border focus:border-brand-purple rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
+                        <button type="submit" class="bg-brand-purple hover:bg-brand-purpleDark text-white font-extrabold text-xs px-4 py-2 rounded-xl transition cursor-pointer">إرسال</button>
                     </form>
-                    <button onclick="simulateCorrectGuess()" title="محاكاة فوز متابع عشوائي الآن"
-                        class="w-full sm:w-auto bg-brand-kick/15 hover:bg-brand-kick/25 text-brand-kick border border-brand-kick/30 font-extrabold text-xs px-3 py-2 rounded-xl transition shrink-0 cursor-pointer">
-                        ⚡ محاكاة إجابة صحيحة
-                    </button>
+                    <button onclick="simulateCorrectGuess()" class="w-full sm:w-auto bg-brand-kick/15 hover:bg-brand-kick/25 text-brand-kick border border-brand-kick/30 font-extrabold text-xs px-3 py-2 rounded-xl transition shrink-0 cursor-pointer">⚡ محاكاة فوز</button>
                 </div>
             </section>
 
             <aside class="lg:col-span-4 flex flex-col gap-4">
-
                 <div class="bg-brand-card border border-brand-border rounded-3xl p-4 shadow-xl">
                     <div class="flex items-center justify-between pb-3 mb-3 border-b border-brand-border">
-                        <h2 class="font-black text-base flex items-center gap-2">
-                            <span class="text-xl">🏆</span>
-                            <span>متصدرو البث</span>
-                        </h2>
-                        <button onclick="resetLeaderboard()" class="text-[11px] font-bold text-red-400 hover:text-red-300 bg-red-500/10 px-2.5 py-1 rounded-lg transition cursor-pointer">
-                            تصفير النقاط
-                        </button>
+                        <h2 class="font-black text-base flex items-center gap-2"><span class="text-xl">🏆</span><span>متصدرو البث</span></h2>
+                        <button onclick="resetLeaderboard()" class="text-[11px] font-bold text-red-400 hover:text-red-300 bg-red-500/10 px-2.5 py-1 rounded-lg transition cursor-pointer">تصفير النقاط</button>
                     </div>
-
                     <div id="leaderboard-list" class="space-y-2 max-h-[260px] overflow-y-auto pr-1"></div>
                 </div>
 
                 <div class="bg-brand-card border border-brand-border rounded-3xl p-4 shadow-xl flex flex-col h-[310px]">
                     <div class="flex items-center justify-between pb-2.5 mb-2 border-b border-brand-border">
-                        <h3 class="font-black text-sm flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-brand-kick"></span>
-                            <span>رسائل الشات المباشرة</span>
-                        </h3>
+                        <h3 class="font-black text-sm flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-brand-kick"></span><span>رسائل الشات المباشرة</span></h3>
                         <span id="chat-msg-counter" class="text-[11px] font-mono text-brand-muted">0 رسالة</span>
                     </div>
-
                     <div id="chat-feed" class="flex-1 overflow-y-auto space-y-1.5 text-xs pr-1">
                         <div class="bg-brand-bg/70 text-brand-muted p-2.5 rounded-xl leading-relaxed">
-                            اربط قناتك على <strong class="text-brand-kick">Kick</strong> من الأعلى، وسيتم التقاط إجابات المتابعين من شات بثك تلقائياً دون الحاجة لكتابة أي أوامر!
+                            جاري المزامنة التلقائية لشات <strong class="text-brand-kick">d7_ll</strong> عبر الوسيط السحابي...
                         </div>
                     </div>
                 </div>
-
             </aside>
         </div>
     </main>
@@ -337,31 +230,6 @@
     <footer class="border-t border-brand-border/70 bg-brand-card/50 py-3 px-4 text-center text-xs text-brand-muted">
         <span>8bjc games</span> — منصة تحدي الشات التفاعلية لبثوث Kick
     </footer>
-
-    <div id="help-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-        <div class="bg-brand-card border border-brand-purple rounded-3xl max-w-lg w-full p-6 shadow-2xl animate-pop">
-            <div class="flex items-center justify-between pb-3 mb-4 border-b border-brand-border">
-                <h3 class="text-lg font-black text-white flex items-center gap-2">
-                    <span>🔗</span>
-                    <span>طريقة ربط شات Kick بدون مشاكل</span>
-                </h3>
-                <button onclick="closeModal('help-modal')" class="text-brand-muted hover:text-white text-xl font-bold cursor-pointer">✕</button>
-            </div>
-            <div class="space-y-3 text-xs sm:text-sm text-gray-300 leading-relaxed">
-                <p>يستخدم الربط رقم <code class="text-brand-purpleLight font-mono">Chatroom ID</code> مباشرة عبر مكتبة Pusher الرسمية (المضبوط حالياً على <code class="text-brand-kick font-mono">5420539</code> لقناة <code class="text-brand-kick font-mono">d7_ll</code>).</p>
-                <ol class="list-decimal list-inside space-y-1.5 bg-brand-bg p-3.5 rounded-2xl border border-brand-border text-xs">
-                    <li>إذا أردت رقم غرفة قناة أخرى، افتح الرابط التالي في المتصفح:<br>
-                        <code dir="ltr" class="text-brand-kick font-mono block mt-1 select-all">https://kick.com/api/v2/channels/اسم_القناة</code>
-                    </li>
-                    <li>ابحث في الصفحة عن <code class="text-brand-purpleLight font-mono">"chatroom":{"id":</code> وانسخ الرقم.</li>
-                    <li>ألصق الرقم في خانة الربط بالأعلى واضغط <strong>ربط الشات</strong>.</li>
-                </ol>
-            </div>
-            <button onclick="closeModal('help-modal')" class="mt-5 w-full py-2.5 rounded-xl bg-brand-purple hover:bg-brand-purpleDark text-white font-extrabold text-sm transition cursor-pointer">
-                فهمت، إغلاق
-            </button>
-        </div>
-    </div>
 
     <div id="custom-q-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
         <div class="bg-brand-card border border-brand-kick rounded-3xl max-w-md w-full p-6 shadow-2xl animate-pop">
@@ -372,22 +240,17 @@
             <form onsubmit="saveCustomQuestion(event)" class="space-y-3.5">
                 <div>
                     <label class="block text-xs font-bold text-brand-muted mb-1">السؤال أو اللغز أو الإيموجي:</label>
-                    <input type="text" id="custom-q-prompt" required placeholder="مثال: ما هي عاصمة سلطنة عمان؟"
-                        class="w-full bg-brand-bg border border-brand-border focus:border-brand-kick rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+                    <input type="text" id="custom-q-prompt" required placeholder="مثال: ما هي عاصمة سلطنة عمان؟" class="w-full bg-brand-bg border border-brand-border focus:border-brand-kick rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-brand-muted mb-1">الإجابات المقبولة (افصل بينها بفاصلة):</label>
-                    <input type="text" id="custom-q-answers" required placeholder="مثال: مسقط, مدينة مسقط"
-                        class="w-full bg-brand-bg border border-brand-border focus:border-brand-kick rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+                    <input type="text" id="custom-q-answers" required placeholder="مثال: مسقط, مدينة مسقط" class="w-full bg-brand-bg border border-brand-border focus:border-brand-kick rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-brand-muted mb-1">تلميح (اختياري):</label>
-                    <input type="text" id="custom-q-hint" placeholder="مثال: تبدأ بحرف الميم"
-                        class="w-full bg-brand-bg border border-brand-border focus:border-brand-kick rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+                    <input type="text" id="custom-q-hint" placeholder="مثال: تبدأ بحرف الميم" class="w-full bg-brand-bg border border-brand-border focus:border-brand-kick rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
                 </div>
-                <button type="submit" class="w-full py-3 rounded-xl bg-brand-kick hover:bg-brand-kickHover text-black font-black text-sm transition cursor-pointer">
-                    تشغيل السؤال الآن!
-                </button>
+                <button type="submit" class="w-full py-3 rounded-xl bg-brand-kick hover:bg-brand-kickHover text-black font-black text-sm transition cursor-pointer">تشغيل السؤال الآن!</button>
             </form>
         </div>
     </div>
@@ -404,59 +267,18 @@
             { mode: 'emoji', category: '🎭 خمن الإيموجي (مسلسلات)', prompt: '🦑🟢🔴💰', answers: ['لعبة الحبار', 'سكويد قيم', 'squid game'], hints: ['مسلسل كوري شهير على نتفليكس', 'ضوء أخضر ضوء أحمر'], points: 100 },
             { mode: 'emoji', category: '🎭 خمن الإيموجي (أفلام)', prompt: '🦇🌃🃏🚗', answers: ['باتمان', 'الرجل الوطواط', 'batman'], hints: ['حامي مدينة جوثام', 'عدوه اللدود الجوكر'], points: 100 },
             { mode: 'emoji', category: '🎭 خمن الإيموجي (ألعاب)', prompt: '🔫🪂🏝️🐔', answers: ['ببجي', 'pubg'], hints: ['لعبة باتل رويال شهيرة', 'الفائز يحصل على عشاء الدجاج'], points: 100 },
-            { mode: 'emoji', category: '🎭 خمن الإيموجي (دول)', prompt: '🍣🗻🗾🌸', answers: ['اليابان', 'japan'], hints: ['كوكب الشرق وأرض الساموراي', 'عاصمتها طوكيو'], points: 100 },
-            { mode: 'emoji', category: '🎭 خمن الإيموجي (قصص)', prompt: '🧞‍♂️🪔🕌🐒', answers: ['علاء الدين', 'علاءالدين', 'aladdin'], hints: ['شاب يجد مصباحاً سحرياً وبساطاً طائراً', 'الأميرة ياسمين'], points: 100 },
-            { mode: 'emoji', category: '🎭 خمن الإيموجي (أفلام)', prompt: '🧙‍♂️⚡👓🦉', answers: ['هاري بوتر', 'harry potter'], hints: ['ساحر صغير في مدرسة هوجورتس', 'لديه ندبة على شكل برق'], points: 100 },
-            { mode: 'emoji', category: '🎭 خمن الإيموجي (ألعاب)', prompt: '🍄🐢👸🏻🔧', answers: ['سوبر ماريو', 'ماريو', 'mario', 'super mario'], hints: ['سباك إيطالي يقفز لإنقاذ الأميرة بيتش', 'يأكل الفطر ليكبر حجمه'], points: 100 },
-            { mode: 'emoji', category: '🎭 خمن الإيموجي (أفلام)', prompt: '🏴‍☠️🧭🚢🦜', answers: ['قراصنة الكاريبي', 'جاك سبارو', 'pirates of the caribbean'], hints: ['سلسلة أفلام قراصنة شهيرة', 'البطل الكابتن جاك سبارو'], points: 100 },
-
             { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'شيء يمشي بلا أرجل ويبكي بلا عيون، فما هو؟', answers: ['السحاب', 'الغيم', 'السحابة', 'الغيمة', 'السحب'], hints: ['يوجد في السماء', 'ينزل منه المطر'], points: 120 },
             { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'ما هو الشيء الذي كلما أخذت منه كبر، وكلما أضفت إليه صغر؟', answers: ['الحفرة', 'الحفره'], hints: ['تكون في الأرض أو الرمل', 'نحفرها بالمعول'], points: 120 },
             { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'ما هو الشيء الذي يكتب ولا يقرأ؟', answers: ['القلم', 'قلم'], hints: ['أداة مدرسية أساسية', 'نمسكه باليد للكتابة'], points: 120 },
             { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'له أسنان كثيرة ولكنه لا يعض أبداً، فما هو؟', answers: ['المشط', 'مشط'], hints: ['نستخدمه أمام المرآة', 'يُستخدم لتسريح الشعر'], points: 120 },
             { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'ما هو الشيء الذي يدخل مبلولاً ويخرج ناشفاً؟', answers: ['الخبز', 'الخبز في الفرن', 'العجين'], hints: ['يُؤكل يومياً على السفرة', 'يدخل الفرن عجيناً'], points: 120 },
-            { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'ما هو البيت الذي ليس له أبواب ولا نوافذ؟', answers: ['بيت الشعر', 'البيت الشعري'], hints: ['ليس مسكناً للإنسان', 'يكتبه الشعراء في القصائد'], points: 120 },
-            { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'شيء إذا لمسته صاح، فما هو؟', answers: ['الجرس', 'جرس'], hints: ['موجود على أبواب المنازل والمدارس', 'يصدر صوت رنين'], points: 120 },
-            { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'ما هو الشيء الذي يسير أمامك ولا تراه؟', answers: ['المستقبل', 'الهواء', 'الوقت'], hints: ['زمن لم يأتِ بعد', 'عكس الماضي'], points: 120 },
-            { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'حامل ومحمول، نصفه ناشف ونصفه مبلول، فما هو؟', answers: ['السفينة', 'السفينه', 'القارب'], hints: ['وسيلة نقل بحرية', 'تطفو فوق الماء'], points: 120 },
-            { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'ما هو الشيء الذي إذا غليته جمد؟', answers: ['البيض', 'البيضة', 'البيضه'], hints: ['يؤكل في الفطور', 'يأتي من الدجاج'], points: 120 },
-            { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'أخت خالك وليست خالتك، فمن تكون؟', answers: ['امي', 'أمي', 'الام', 'الأم', 'والدتي'], hints: ['أقرب إنسانة إليك', 'الجنة تحت أقدامها'], points: 120 },
-            { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'ما هو الشيء الذي يقرصك ولا تراه؟', answers: ['الجوع', 'البرد'], hints: ['شعور يصيب الإنسان عندما يتأخر عن الأكل', 'علاجها الطعام'], points: 120 },
-            { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'ما هو الشيء الذي له عين واحدة ولا يرى؟', answers: ['الابرة', 'الإبرة', 'ابرة الخياطة'], hints: ['تُستخدم في الخياطة', 'يدخل فيها الخيط'], points: 120 },
-            { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'كلما زاد نقص، فما هو؟', answers: ['العمر', 'عمر الانسان'], hints: ['يمر مع السنين', 'يكبر بالسنوات وينقص من الباقي'], points: 120 },
-            { mode: 'riddle', category: '🧠 ألغاز وفوازير', prompt: 'ما هو الشيء الذي ينبض بلا قلب؟', answers: ['الساعة', 'الساعه'], hints: ['نلبسها في اليد أو نعلقها على الحائط', 'تخبرنا بالوقت'], points: 120 },
-
             { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'اللي ما يعرف الصقر ...', answers: ['يشويه'], hints: ['كلمة واحدة تدل على الطبخ على النار', 'يبدأ بحرف الياء'], points: 100 },
             { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'الباب اللي يجيك منه ريح ...', answers: ['سده واستريح', 'سده و استريح'], hints: ['كلمتان: أغلقه وارتَح', 'تبدأ بـ سده'], points: 100 },
             { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'عصفور باليد خير من ...', answers: ['عشرة على الشجرة', 'عشره على الشجره', 'عشرة فوق الشجرة'], hints: ['رقم 10 ومكان الطيور', 'عشرة على ...'], points: 100 },
             { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'مد رجولك على قد ...', answers: ['لحافك', 'الحافك'], hints: ['الغطاء الذي تتغطى به وقت النوم', 'كلمة واحدة'], points: 100 },
             { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'إذا كان الكلام من فضة فالسكوت من ...', answers: ['ذهب', 'الذهب'], hints: ['معدن ثمين أصفر اللون', 'أغلى من الفضة'], points: 100 },
-            { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'الطيور على أشكالها ...', answers: ['تقع'], hints: ['فعل مضارع من 3 حروف', 'يبدأ بحرف التاء'], points: 100 },
-            { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'القرد في عين أمه ...', answers: ['غزال'], hints: ['حيوان بري رشيق وجميل', 'يبدأ بحرف الغين'], points: 100 },
-            { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'من جد وجد ومن زرع ...', answers: ['حصد'], hints: ['جمع المحصول الزراعي', 'فعل ماضي من 3 حروف'], points: 100 },
-            { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'اللي يبي الدح ما يقول ...', answers: ['اح', 'أح'], hints: ['كلمة من حرفين تعبر عن الحرارة', 'أح'], points: 100 },
-            { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'لا تؤجل عمل اليوم إلى ...', answers: ['الغد', 'غد', 'بكرة'], hints: ['اليوم الذي يلي اليوم', 'الغد'], points: 100 },
-            { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'الصديق وقت ...', answers: ['الضيق'], hints: ['الشدة والأزمات', 'على وزن الصديق'], points: 100 },
-            { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'أهل مكة أدرى ...', answers: ['بشعابها'], hints: ['بطرقها وجبالها', 'تبدأ بحرف الباء'], points: 100 },
-            { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'من شابه أباه فما ...', answers: ['ظلم'], hints: ['عكس العدل', '3 حروف'], points: 100 },
-            { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'رضينا بالهم والهم ما ...', answers: ['رضي فينا', 'رضى فينا', 'رضي بنا'], hints: ['لم يقبل بنا', 'رضي ...'], points: 100 },
-            { mode: 'proverb', category: '📜 أكمل المثل الشعبي', prompt: 'الجار قبل ...', answers: ['الدار'], hints: ['المنزل أو البيت', 'على وزن الجار'], points: 100 },
-
             { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: وُلدت في جزيرة ماديرا عام 1985...', answers: ['كريستيانو', 'رونالدو', 'كريستيانو رونالدو', 'الدون', 'cristiano', 'ronaldo'], hints: ['التلميح الثاني: الهداف التاريخي لدوري أبطال أوروبا وريال مدريد', 'التلميح الثالث: ألعب حالياً في نادي النصر السعودي واحتفالي الشهير SIUUU'], points: 150 },
-            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أُلقب بـ "كوكب الأرض المصغر" لتنوع تضاريسي...', answers: ['المغرب', 'المملكة المغربية', 'المغرب العربي'], hints: ['التلميح الثاني: منتخب بلادي وصل نصف نهائي كأس العالم 2022 كأول فريق عربي وأفريقي', 'التلميح الثالث: عاصمتي الرباط وأشهر مدني مراكش والدار البيضاء'], points: 150 },
-            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: صدرتُ عام 2013 وأُعتبر من أكثر الألعاب مبيعاً في التاريخ...', answers: ['قراند', 'قراند 5', 'gta', 'gta 5', 'gta v', 'حرامي السيارات'], hints: ['التلميح الثاني: تدور أحداثي في مدينة لوس سانتوس الخيالية', 'التلميح الثالث: أبطالي الثلاثة هم مايكل وتريفور وفرانكلين'], points: 150 },
-            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أنا حيوان صحراوي أستطيع العيش أسابيع بدون ماء...', answers: ['الجمل', 'الناقة', 'البعير', 'الابل', 'الإبل'], hints: ['التلميح الثاني: أُلقب بسفينة الصحراء وأخزن الدهون في سنامي', 'التلميح الثالث: حيوان مشهور جداً في الجزيرة العربية وله سباقات الهجن'], points: 150 },
-            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أنا كوكب في المجموعة الشمسية أُعرف بالكوكب الأحمر...', answers: ['المريخ', 'كوكب المريخ', 'mars'], hints: ['التلميح الثاني: أقع في الترتيب الرابع من حيث البعد عن الشمس', 'التلميح الثالث: تسعى وكالة ناسا وإيلون ماسك لإرسال بشر للعيش على سطحي'], points: 150 },
-            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أنا يوتيوبر وستريمر سعودي مشهور في فورتنايت والألعاب...', answers: ['شونق', 'شونق بونق', 'احمد شونق', 'shongxbong', 'shong'], hints: ['التلميح الثاني: أحد مؤسسي وأعضاء كلان باور (POWR)', 'التلميح الثالث: اسمي الحقيقي أحمد القحطاني ولدي ملايين المتابعين على يوتيوب وكيك'], points: 150 },
-            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أنا أطول نهر في العالم وأمرّ عبر 11 دولة أفريقية...', answers: ['النيل', 'نهر النيل'], hints: ['التلميح الثاني: أصب في البحر الأبيض المتوسط', 'التلميح الثالث: شريان الحياة الرئيسي في مصر والسودان'], points: 150 },
-            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أنا شخصية أنمي شهيرة أحلم بأن أصبح ملك القراصنة...', answers: ['لوفي', 'مونكي دي لوفي', 'luffy'], hints: ['التلميح الثاني: أكلت فاكهة المطاط وأرتدي قبعة قش', 'التلميح الثالث: قائد طاقم قراصنة قبعة القش في أنمي ون بيس'], points: 150 },
-            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أنا معدن سائل في درجة حرارة الغرفة ولوني فضي...', answers: ['الزئبق', 'زئبق'], hints: ['التلميح الثاني: كنت أُستخدم قديماً في موازين الحرارة', 'التلميح الثالث: رمزي الكيميائي Hg'], points: 150 },
-            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أنا شركة تقنية تأسست في مرآب سيارات عام 1976...', answers: ['ابل', 'آبل', 'apple'], hints: ['التلميح الثاني: مؤسسي هو ستيف جوبز وشعاري فاكهة مقضومة', 'التلميح الثالث: أصنع هواتف آيفون وأجهزة ماك'], points: 150 },
-            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أنا أسرع حيوان بري على وجه الأرض...', answers: ['الفهد', 'فهد', 'الشيتا'], hints: ['التلميح الثاني: تصل سرعتي إلى 110 كم في الساعة خلال ثوانٍ', 'التلميح الثالث: حيوان مفترس مرقط يعيش في السافانا'], points: 150 },
-            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أنا نادي كرة قدم إسباني تأسست عام 1902...', answers: ['ريال مدريد', 'الريال', 'مدريد', 'real madrid'], hints: ['التلميح الثاني: ملعبي هو سانتياغو برنابيو ولوني أبيض', 'التلميح الثالث: أكثر نادي تحقيقاً لدوري أبطال أوروبا بـ 15 لقباً'], points: 150 },
-            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أنا دولة عربية أُلقب ببلد المليون شهيد...', answers: ['الجزائر', 'الجزاير'], hints: ['التلميح الثاني: أكبر دولة عربية وأفريقية من حيث المساحة', 'التلميح الثالث: منتخب بلادي يُلقب بمحاربي الصحراء وعاصمتي الجزائر'], points: 150 },
-            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أنا لغة برمجة صُممت عام 1995 لتشغيل صفحات الويب...', answers: ['جافا سكريبت', 'جافاسكريبت', 'javascript', 'js'], hints: ['التلميح الثاني: أعمل داخل كل متصفحات الإنترنت', 'التلميح الثالث: اسمي يشبه لغة Java لكنني مختلفة تماماً'], points: 150 },
-            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أنا أطول برج في العالم بارتفاع 828 متراً...', answers: ['برج خليفة', 'برج خليفه'], hints: ['التلميح الثاني: أقع في دولة الإمارات العربية المتحدة', 'التلميح الثالث: أشهر معلم سياحي في مدينة دبي'], points: 150 }
+            { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أنا يوتيوبر وستريمر سعودي مشهور في فورتنايت والألعاب...', answers: ['شونق', 'شونق بونق', 'احمد شونق', 'shongxbong', 'shong'], hints: ['التلميح الثاني: أحد مؤسسي وأعضاء كلان باور (POWR)', 'التلميح الثالث: اسمي الحقيقي أحمد القحطاني ولدي ملايين المتابعين على يوتيوب وكيك'], points: 150 }
         ];
 
         let selectedMode = 'all';
@@ -468,16 +290,15 @@
         let revealedHintsCount = 0;
         let currentPointsValue = 100;
         let usedQuestionIndices = new Set();
-
         let leaderboard = JSON.parse(localStorage.getItem('kick_chat_leaderboard') || '{}');
 
-        // متغيرات Pusher الرسمية
-        let pusherInstance = null;
-        let pusherChannel = null;
-        let connectedChannelName = '';
+        // متغيرات السحب السحابي (Polling عبر وسيط لتجاوز حظر المتصفح)
+        let pollTimer = null;
+        let isPollingActive = false;
+        let seenMessageIds = new Set();
+        let isInitialBatch = true;
         let totalChatMessages = 0;
         let isSoundEnabled = true;
-
         let audioCtx = null;
 
         function ensureAudioContext() {
@@ -497,10 +318,8 @@
                 osc.type = type;
                 const start = audioCtx.currentTime + delay;
                 osc.frequency.setValueAtTime(freq, start);
-
                 gain.gain.setValueAtTime(vol, start);
                 gain.gain.exponentialRampToValueAtTime(0.001, start + duration);
-
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
                 osc.start(start);
@@ -538,18 +357,14 @@
 
         function normalizeArabicText(text) {
             if (!text) return '';
-            return text
-                .toString()
-                .toLowerCase()
-                .trim()
+            return text.toString().toLowerCase().trim()
                 .replace(/[\u064B-\u065F\u0670]/g, '')
                 .replace(/ـ+/g, '')
                 .replace(/[أإآٱ]/g, 'ا')
                 .replace(/ة/g, 'ه')
                 .replace(/ى/g, 'ي')
                 .replace(/[^\w\s\u0600-\u06FF]/g, ' ')
-                .replace(/\s+/g, ' ')
-                .trim();
+                .replace(/\s+/g, ' ').trim();
         }
 
         function stripAlPrefix(word) {
@@ -565,19 +380,11 @@
                 const normAns = normalizeArabicText(ans);
                 if (!normAns) continue;
                 const normAnsNoAl = stripAlPrefix(normAns);
-
-                if (normUser === normAns || normUserNoAl === normAnsNoAl) {
-                    return true;
-                }
-
+                if (normUser === normAns || normUserNoAl === normAnsNoAl) return true;
                 if (normAnsNoAl.length >= 3) {
                     const userWords = normUser.split(' ').map(stripAlPrefix);
-                    if (normAnsNoAl.split(' ').length === 1 && userWords.includes(normAnsNoAl)) {
-                        return true;
-                    }
-                    if (normUser.includes(normAns) || normUser.includes(normAnsNoAl)) {
-                        return true;
-                    }
+                    if (normAnsNoAl.split(' ').length === 1 && userWords.includes(normAnsNoAl)) return true;
+                    if (normUser.includes(normAns) || normUser.includes(normAnsNoAl)) return true;
                 }
             }
             return false;
@@ -598,16 +405,13 @@
         }
 
         function getNextQuestion() {
-            const pool = QUESTION_BANK
-                .map((q, idx) => ({ ...q, originalIdx: idx }))
+            const pool = QUESTION_BANK.map((q, idx) => ({ ...q, originalIdx: idx }))
                 .filter(q => selectedMode === 'all' || q.mode === selectedMode);
-
             let available = pool.filter(q => !usedQuestionIndices.has(q.originalIdx));
             if (available.length === 0) {
                 usedQuestionIndices.clear();
                 available = pool;
             }
-
             const chosen = available[Math.floor(Math.random() * available.length)];
             usedQuestionIndices.add(chosen.originalIdx);
             return chosen;
@@ -651,28 +455,17 @@
             timerInterval = setInterval(() => {
                 timeLeft--;
                 updateTimerUI();
-
-                if (currentQuestion.mode === 'who' && (timeLeft === 20 || timeLeft === 10)) {
-                    revealNextHint(true);
-                }
-
-                if (timeLeft <= 5 && timeLeft > 0) {
-                    playSoundTick(true);
-                }
-
-                if (timeLeft <= 0) {
-                    endRoundWithoutWinner();
-                }
+                if (currentQuestion.mode === 'who' && (timeLeft === 20 || timeLeft === 10)) revealNextHint(true);
+                if (timeLeft <= 5 && timeLeft > 0) playSoundTick(true);
+                if (timeLeft <= 0) endRoundWithoutWinner();
             }, 1000);
         }
 
-        function revealNextHint(isAuto = false) {
+        function revealNextHint() {
             if (!isRoundActive || !currentQuestion || !currentQuestion.hints) return;
             if (revealedHintsCount >= currentQuestion.hints.length) return;
-
             const hintText = currentQuestion.hints[revealedHintsCount];
             revealedHintsCount++;
-
             currentPointsValue = Math.max(40, Math.round(currentPointsValue * 0.75));
             updatePointsBadge();
             playSoundHint();
@@ -682,29 +475,21 @@
             hintEl.className = 'bg-brand-purple/15 border border-brand-purple/40 text-purple-200 text-xs sm:text-sm font-bold px-4 py-2 rounded-xl animate-pop';
             hintEl.innerHTML = `<span class="text-brand-kick ml-1">💡 تلميح ${revealedHintsCount}:</span> ${escapeHTML(hintText)}`;
             container.appendChild(hintEl);
-
-            if (revealedHintsCount >= currentQuestion.hints.length) {
-                document.getElementById('btn-reveal-hint').disabled = true;
-            }
+            if (revealedHintsCount >= currentQuestion.hints.length) document.getElementById('btn-reveal-hint').disabled = true;
         }
 
         function handleRoundWin(username, winningMessage) {
             if (!isRoundActive) return;
             isRoundActive = false;
             clearInterval(timerInterval);
-
             playSoundWin();
 
-            if (!leaderboard[username]) {
-                leaderboard[username] = { points: 0, wins: 0 };
-            }
+            if (!leaderboard[username]) leaderboard[username] = { points: 0, wins: 0 };
             leaderboard[username].points += currentPointsValue;
             leaderboard[username].wins += 1;
             saveAndRenderLeaderboard();
 
-            const arena = document.getElementById('arena-card');
-            arena.classList.add('winner-card-glow');
-
+            document.getElementById('arena-card').classList.add('winner-card-glow');
             const banner = document.getElementById('round-result-banner');
             banner.classList.remove('hidden', 'border-amber-400');
             banner.classList.add('border-brand-kick');
@@ -742,12 +527,9 @@
             const pct = Math.max(0, (timeLeft / roundDuration) * 100);
             const bar = document.getElementById('timer-bar');
             bar.style.width = `${pct}%`;
-
-            if (timeLeft <= 7) {
-                bar.className = 'h-full bg-red-500 transition-all duration-300';
-            } else {
-                bar.className = 'h-full bg-gradient-to-l from-brand-kick via-brand-purple to-brand-purpleDark transition-all duration-300';
-            }
+            bar.className = timeLeft <= 7
+                ? 'h-full bg-red-500 transition-all duration-300'
+                : 'h-full bg-gradient-to-l from-brand-kick via-brand-purple to-brand-purpleDark transition-all duration-300';
         }
 
         function updatePointsBadge() {
@@ -765,7 +547,6 @@
                     handleRoundWin(username, message);
                 }
             }
-
             appendChatRow(username, message, isWinnerMsg);
         }
 
@@ -775,7 +556,6 @@
             row.className = isWinner
                 ? 'bg-brand-kick/20 border border-brand-kick px-3 py-2 rounded-xl text-white font-bold animate-pop'
                 : 'px-2.5 py-1 rounded-lg hover:bg-brand-bg/50 text-gray-200';
-
             row.innerHTML = `
                 <span class="font-extrabold ${isWinner ? 'text-brand-kick' : 'text-brand-purpleLight'} font-mono">${escapeHTML(username)}:</span>
                 <span class="break-words">${escapeHTML(message)}</span>
@@ -783,128 +563,94 @@
             `;
             feed.appendChild(row);
             feed.scrollTop = feed.scrollHeight;
-
-            while (feed.children.length > 70) {
-                feed.removeChild(feed.firstChild);
-            }
+            while (feed.children.length > 70) feed.removeChild(feed.firstChild);
         }
 
         /**
-         * الربط عبر مكتبة Pusher الرسمية برقم Chatroom ID (الافتراضي 5420539)
+         * سحب رسائل شات Kick عبر وسيط سحابي لتجاوز حظر WebSocket من المتصفح
          */
-        async function handleKickConnect() {
-            const raw = document.getElementById('kick-input').value.trim() || '5420539';
+        async function fetchChannelMessagesViaProxy(channelSlug) {
+            const targetUrl = `https://kick.com/api/v2/channels/${encodeURIComponent(channelSlug)}/messages`;
+            const proxies = [
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}&_=${Date.now()}`,
+                `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`
+            ];
 
-            if (/^\d+$/.test(raw)) {
-                connectPusherByChatroomId(raw, `غرفة #${raw}`);
-                return;
+            for (const proxyUrl of proxies) {
+                try {
+                    const res = await fetch(proxyUrl, { cache: 'no-store' });
+                    if (!res.ok) continue;
+                    const json = await res.json();
+                    const messages = json?.data?.messages || json?.messages || [];
+                    if (Array.isArray(messages)) {
+                        return messages;
+                    }
+                } catch (e) {}
+            }
+            return null;
+        }
+
+        async function pollLoop(channelSlug) {
+            if (!isPollingActive) return;
+
+            const messages = await fetchChannelMessagesViaProxy(channelSlug);
+            if (!isPollingActive) return;
+
+            if (messages !== null) {
+                updateConnectionUI('connected', `متصل ومستقر: ${channelSlug}`);
+                document.getElementById('btn-connect').classList.add('hidden');
+                document.getElementById('btn-disconnect').classList.remove('hidden');
+
+                const ordered = [...messages].reverse();
+                for (const m of ordered) {
+                    const id = m.id || `${m.sender?.username}_${m.created_at}_${m.content}`;
+                    if (!seenMessageIds.has(id)) {
+                        seenMessageIds.add(id);
+                        if (!isInitialBatch) {
+                            const sender = m.sender?.username;
+                            const text = m.content;
+                            if (sender && text !== undefined) {
+                                processChatMessage(sender, String(text));
+                            }
+                        }
+                    }
+                }
+                if (isInitialBatch) {
+                    isInitialBatch = false;
+                    appendChatRow('النظام', `تم ربط شات ${channelSlug} بنجاح (بدون WebSocket مغلق)`, false);
+                }
+            } else {
+                updateConnectionUI('connecting', `إعادة محاولة المزامنة مع ${channelSlug}...`);
             }
 
-            const username = raw.replace(/^(https?:\/\/)?(www\.)?kick\.com\//i, '').replace(/\/$/, '').toLowerCase();
-            updateConnectionUI('connecting', `جاري البحث عن ${username}...`);
-
-            try {
-                const res = await fetch(`https://kick.com/api/v2/channels/${encodeURIComponent(username)}`, {
-                    headers: { 'Accept': 'application/json' }
-                });
-                if (!res.ok) throw new Error('API Blocked');
-                const data = await res.json();
-                if (!data?.chatroom?.id) throw new Error('No Chatroom ID');
-                connectPusherByChatroomId(data.chatroom.id, username);
-            } catch (err) {
-                updateConnectionUI('error', 'أدخل رقم Chatroom ID (مثل 5420539)');
-                showToast('أدخل رقم Chatroom ID مباشرة (مثل 5420539) في خانة الربط.', 'warning');
-                openHelpModal();
+            if (isPollingActive) {
+                pollTimer = setTimeout(() => pollLoop(channelSlug), 2200);
             }
         }
 
-        function connectPusherByChatroomId(chatroomId, labelName) {
-            disconnectKick(true);
+        function startChatPolling() {
+            stopChatPolling(true);
+            const raw = document.getElementById('kick-input').value.trim() || 'd7_ll';
+            const channelSlug = raw.replace(/^(https?:\/\/)?(www\.)?kick\.com\//i, '').replace(/\/$/, '').toLowerCase();
+            document.getElementById('kick-input').value = channelSlug;
 
-            const roomId = String(chatroomId).trim();
-            const channelName = `chatrooms.${roomId}.v2`;
-            connectedChannelName = labelName;
-            updateConnectionUI('connecting', `جاري الاتصال بـ ${labelName}...`);
-
-            if (typeof Pusher === 'undefined') {
-                updateConnectionUI('error', 'تعذر تحميل مكتبة Pusher');
-                showToast('تحقق من الاتصال بالإنترنت لتحميل مكتبة Pusher.', 'warning');
-                return;
-            }
-
-            try {
-                pusherInstance = new Pusher('32cbd69e4b950bf97679', {
-                    cluster: 'us2',
-                    forceTLS: true
-                });
-
-                pusherInstance.connection.bind('connected', () => {
-                    updateConnectionUI('connected', `متصل: ${labelName}`);
-                    document.getElementById('btn-connect').classList.add('hidden');
-                    document.getElementById('btn-disconnect').classList.remove('hidden');
-                });
-
-                pusherInstance.connection.bind('disconnected', () => {
-                    if (connectedChannelName) {
-                        updateConnectionUI('disconnected', 'تم فصل الاتصال');
-                        document.getElementById('btn-connect').classList.remove('hidden');
-                        document.getElementById('btn-disconnect').classList.add('hidden');
-                    }
-                });
-
-                pusherInstance.connection.bind('error', () => {
-                    updateConnectionUI('error', 'خطأ في اتصال Pusher');
-                });
-
-                pusherChannel = pusherInstance.subscribe(channelName);
-
-                pusherChannel.bind('pusher:subscription_succeeded', () => {
-                    updateConnectionUI('connected', `متصل: ${labelName}`);
-                    document.getElementById('btn-connect').classList.add('hidden');
-                    document.getElementById('btn-disconnect').classList.remove('hidden');
-                    appendChatRow('النظام', `تم الاشتراك بنجاح في الغرفة ${roomId}`, false);
-                    showToast(`تم الربط مع شات ${labelName} بنجاح!`, 'success');
-                });
-
-                pusherChannel.bind('pusher:subscription_error', () => {
-                    updateConnectionUI('error', 'فشل الاشتراك في الغرفة');
-                    appendChatRow('النظام', `تعذر الاشتراك في الغرفة ${roomId}`, false);
-                });
-
-                pusherChannel.bind('App\\Events\\ChatMessageEvent', (msgData) => {
-                    const parsed = typeof msgData === 'string' ? JSON.parse(msgData) : msgData;
-                    const sender = parsed?.sender?.username;
-                    const text = parsed?.content;
-                    if (sender && text !== undefined) {
-                        processChatMessage(sender, String(text));
-                    }
-                });
-            } catch (e) {
-                updateConnectionUI('error', 'تعذر بدء الاتصال');
-            }
+            isPollingActive = true;
+            isInitialBatch = true;
+            seenMessageIds.clear();
+            updateConnectionUI('connecting', `جاري الربط مع ${channelSlug}...`);
+            pollLoop(channelSlug);
         }
 
-        function disconnectKick(silent = false) {
-            connectedChannelName = '';
-            try {
-                if (pusherInstance && pusherChannel) {
-                    pusherInstance.unsubscribe(pusherChannel.name);
-                }
-                if (pusherInstance) {
-                    pusherInstance.disconnect();
-                }
-            } catch (e) {}
-
-            pusherChannel = null;
-            pusherInstance = null;
-
-            updateConnectionUI('disconnected', 'وضع التجربة (غير متصل)');
+        function stopChatPolling(silent = false) {
+            isPollingActive = false;
+            if (pollTimer) {
+                clearTimeout(pollTimer);
+                pollTimer = null;
+            }
+            updateConnectionUI('disconnected', 'تم إيقاف المزامنة');
             document.getElementById('btn-connect').classList.remove('hidden');
             document.getElementById('btn-disconnect').classList.add('hidden');
-
-            if (!silent) {
-                showToast('تم فصل الاتصال عن شات Kick.', 'info');
-            }
+            if (!silent) showToast('تم إيقاف قراءة الشات.', 'info');
         }
 
         function updateConnectionUI(state, text) {
@@ -919,9 +665,6 @@
             } else if (state === 'connecting') {
                 dot.classList.add('bg-brand-purpleLight');
                 label.className = 'text-brand-purpleLight';
-            } else if (state === 'error') {
-                dot.classList.add('bg-red-500');
-                label.className = 'text-red-400';
             } else {
                 dot.classList.add('bg-amber-400');
                 label.className = 'text-amber-300';
@@ -954,9 +697,7 @@
                             <div class="text-[10px] text-brand-muted">${player.wins} إجابات صحيحة</div>
                         </div>
                     </div>
-                    <div class="text-xs font-black font-mono text-brand-kick bg-brand-kick/10 px-2.5 py-1 rounded-lg">
-                        ${player.points} pt
-                    </div>
+                    <div class="text-xs font-black font-mono text-brand-kick bg-brand-kick/10 px-2.5 py-1 rounded-lg">${player.points} pt</div>
                 </div>
             `).join('');
         }
@@ -969,12 +710,10 @@
 
         function handleSimulatedSubmit(e) {
             e.preventDefault();
-            const userEl = document.getElementById('sim-user');
+            const user = document.getElementById('sim-user').value.trim() || 'Viewer_KSA';
             const msgEl = document.getElementById('sim-msg');
-            const user = userEl.value.trim() || 'Viewer_KSA';
             const msg = msgEl.value.trim();
             if (!msg) return;
-
             processChatMessage(user, msg);
             msgEl.value = '';
         }
@@ -986,14 +725,7 @@
             }
             const sampleFans = ['Faisal_KSA', 'Noura_GG', 'Turki_99', 'Maha_Live', 'Bandar_X', 'Reem_Play'];
             const randomFan = sampleFans[Math.floor(Math.random() * sampleFans.length)];
-            const rightAns = currentQuestion.answers[0];
-            processChatMessage(randomFan, rightAns);
-        }
-
-        function openHelpModal() {
-            const m = document.getElementById('help-modal');
-            m.classList.remove('hidden');
-            m.classList.add('flex');
+            processChatMessage(randomFan, currentQuestion.answers[0]);
         }
 
         function openCustomQuestionModal() {
@@ -1013,24 +745,21 @@
             const prompt = document.getElementById('custom-q-prompt').value.trim();
             const rawAnswers = document.getElementById('custom-q-answers').value.split(',').map(s => s.trim()).filter(Boolean);
             const hint = document.getElementById('custom-q-hint').value.trim();
-
             if (!prompt || rawAnswers.length === 0) return;
-
-            const customObj = {
-                mode: 'custom',
-                category: '⭐ سؤال مخصص من الستريمر',
-                prompt,
-                answers: rawAnswers,
-                hints: hint ? [hint] : [],
-                points: 150
-            };
 
             closeModal('custom-q-modal');
             document.getElementById('custom-q-prompt').value = '';
             document.getElementById('custom-q-answers').value = '';
             document.getElementById('custom-q-hint').value = '';
 
-            startNewRound(customObj);
+            startNewRound({
+                mode: 'custom',
+                category: '⭐ سؤال مخصص من الستريمر',
+                prompt,
+                answers: rawAnswers,
+                hints: hint ? [hint] : [],
+                points: 150
+            });
             showToast('تم تشغيل سؤالك المخصص في الجولة الآن!', 'success');
         }
 
@@ -1042,11 +771,9 @@
                 warning: 'border-amber-400 text-amber-200',
                 info: 'border-brand-purple text-purple-100'
             };
-
             toast.className = `pointer-events-auto bg-brand-card border-r-4 ${borderColors[type] || borderColors.info} px-4 py-3 rounded-xl shadow-2xl text-xs font-bold transition-all duration-300 transform translate-y-2 opacity-0`;
             toast.textContent = message;
             container.appendChild(toast);
-
             requestAnimationFrame(() => toast.classList.remove('translate-y-2', 'opacity-0'));
             setTimeout(() => {
                 toast.classList.add('opacity-0', 'translate-y-2');
@@ -1056,17 +783,14 @@
 
         function escapeHTML(str) {
             return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
         }
 
         window.onload = () => {
             renderLeaderboard();
             startNewRound();
-            connectPusherByChatroomId('5420539', 'غرفة #5420539');
+            startChatPolling();
         };
     </script>
 </body>
