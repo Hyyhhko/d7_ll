@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تحدي الشات | منصة الألغاز والتخمين للبث المباشر - 8bjc games</title>
-    <!-- استيراد خطوط Cairo للغة العربية و Inter للأرقام -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
-    <!-- تحميل Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -53,7 +51,6 @@
             overflow-x: hidden;
         }
 
-        /* تخصيص شريط التمرير */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -69,7 +66,6 @@
             background: #8b5cf6;
         }
 
-        /* تأثيرات حركية */
         @keyframes floatSlow {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-6px); }
@@ -97,14 +93,11 @@
 </head>
 <body class="min-h-screen flex flex-col selection:bg-brand-kick selection:text-black">
 
-    <!-- حاوية الإشعارات العائمة -->
     <div id="toast-container" class="fixed bottom-5 left-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none"></div>
 
-    <!-- الشريط العلوي (Navbar & Kick Connector) -->
     <header class="bg-brand-card/90 backdrop-blur-md border-b border-brand-border sticky top-0 z-30">
         <div class="max-w-[1650px] mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
 
-            <!-- شعار المنصة -->
             <div class="flex items-center gap-3">
                 <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-purple to-brand-purpleDark flex items-center justify-center text-white font-black text-2xl shadow-purple-glow border border-brand-purpleLight/30 select-none">
                     ⚡
@@ -122,27 +115,22 @@
                 </div>
             </div>
 
-            <!-- شريط الربط المباشر بشات Kick -->
             <div class="flex flex-wrap items-center gap-2 flex-1 max-w-3xl justify-end">
-                <!-- مؤشر حالة الاتصال -->
                 <div id="status-badge" class="flex items-center gap-2 px-3 py-2 rounded-xl bg-brand-bg border border-brand-border text-xs font-bold">
-                    <span id="status-dot" class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                    <span id="status-dot" class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
                     <span id="status-text" class="text-amber-300">وضع التجربة (غير متصل)</span>
                 </div>
 
-                <!-- حقل اسم القناة أو Chatroom ID -->
                 <div class="relative flex-1 min-w-[200px] max-w-xs">
                     <input type="text" id="kick-input" placeholder="اسم قناتك أو رقم Chatroom ID" dir="auto"
                         class="w-full bg-brand-bg border border-brand-border focus:border-brand-kick rounded-xl py-2 px-3.5 text-sm font-bold text-white placeholder-brand-muted/60 focus:outline-none transition">
                 </div>
 
-                <!-- زر المساعدة لاستخراج Chatroom ID -->
                 <button onclick="openHelpModal()" title="كيف أجيب رقم Chatroom ID؟"
                     class="p-2 rounded-xl bg-brand-bg hover:bg-brand-cardHover border border-brand-border text-brand-purpleLight hover:text-white transition cursor-pointer">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </button>
 
-                <!-- أزرار الاتصال وقطع الاتصال -->
                 <button id="btn-connect" onclick="handleKickConnect()"
                     class="bg-brand-kick hover:bg-brand-kickHover text-black font-black text-sm px-4 py-2 rounded-xl transition active:scale-95 flex items-center gap-1.5 shadow-kick-glow cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
@@ -153,7 +141,6 @@
                     قطع الاتصال
                 </button>
 
-                <!-- زر كتم/تفعيل الصوت -->
                 <button onclick="toggleSound()" id="btn-sound" title="المؤثرات الصوتية"
                     class="p-2 rounded-xl bg-brand-bg border border-brand-border hover:border-brand-purple text-white transition cursor-pointer">
                     <svg id="icon-sound-on" class="w-5 h-5 text-brand-kick" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
@@ -163,10 +150,8 @@
         </div>
     </header>
 
-    <!-- المحتوى الرئيسي -->
     <main class="flex-1 max-w-[1650px] w-full mx-auto p-4 flex flex-col gap-5">
 
-        <!-- شريط اختيار نمط اللعبة -->
         <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             <button onclick="selectGameMode('all')" id="mode-btn-all"
                 class="mode-card group relative overflow-hidden rounded-2xl p-3.5 text-right border-2 border-brand-purple bg-brand-card shadow-purple-glow transition-all cursor-pointer">
@@ -219,16 +204,12 @@
             </button>
         </section>
 
-        <!-- منطقة اللعب الرئيسية + الشريط الجانبي -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
 
-            <!-- ساحة اللعب المركزية (8 أعمدة) -->
             <section class="lg:col-span-8 flex flex-col gap-4">
 
-                <!-- بطاقة السؤال والتحدي -->
                 <div id="arena-card" class="bg-brand-card border-2 border-brand-border rounded-3xl p-5 sm:p-8 shadow-2xl relative overflow-hidden min-h-[430px] flex flex-col justify-between transition-all">
 
-                    <!-- شريط المعلومات العلوي داخل البطاقة -->
                     <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-brand-border/80">
                         <div class="flex items-center gap-2">
                             <span id="q-category-badge" class="px-3 py-1 rounded-xl bg-brand-purple/20 border border-brand-purple/40 text-brand-purpleLight text-xs font-extrabold">
@@ -239,7 +220,6 @@
                             </span>
                         </div>
 
-                        <!-- العداد التنازلي والإعدادات السريعة -->
                         <div class="flex items-center gap-3">
                             <div class="flex items-center gap-1.5 bg-brand-bg border border-brand-border px-3 py-1.5 rounded-xl">
                                 <span class="text-xs text-brand-muted">الوقت:</span>
@@ -253,34 +233,28 @@
                         </div>
                     </div>
 
-                    <!-- شريط التقدم الزمني -->
                     <div class="w-full h-2 bg-brand-bg rounded-full overflow-hidden my-3">
                         <div id="timer-bar" class="h-full bg-gradient-to-l from-brand-kick via-brand-purple to-brand-purpleDark transition-all duration-300" style="width: 100%;"></div>
                     </div>
 
-                    <!-- محتوى السؤال في المنتصف -->
                     <div id="question-stage" class="my-auto py-4 text-center flex flex-col items-center justify-center gap-4">
                         <div id="q-subtitle" class="text-xs sm:text-sm font-bold text-brand-purpleLight bg-brand-purple/10 px-4 py-1 rounded-full">
                             اكتب الإجابة الصحيحة في شات البث مباشرة!
                         </div>
 
-                        <!-- نص السؤال أو الإيموجي الكبير -->
                         <div id="q-main-display" class="text-3xl sm:text-5xl font-black text-white leading-snug tracking-wide max-w-2xl mx-auto">
                             اضغط "بدء الجولة" لبدء التحدي!
                         </div>
 
-                        <!-- منطقة التلميحات التدريجية -->
                         <div id="hints-container" class="w-full max-w-xl flex flex-col gap-2 mt-2"></div>
                     </div>
 
-                    <!-- لافتة الفائز أو كشف الإجابة -->
                     <div id="round-result-banner" class="hidden mt-3 p-4 rounded-2xl bg-brand-bg border-2 border-brand-kick text-center animate-pop">
                         <div id="result-title" class="text-xs font-extrabold text-brand-kick mb-1">🎉 إجابة صحيحة وأسرع بطل في الشات!</div>
                         <div id="result-winner-name" class="text-2xl sm:text-3xl font-black text-white font-mono">Username</div>
                         <div id="result-answer-text" class="text-sm font-bold text-brand-purpleLight mt-1">الإجابة الصحيحة: ...</div>
                     </div>
 
-                    <!-- أزرار تحكم الستريمر السفلية -->
                     <div class="pt-4 mt-4 border-t border-brand-border/80 flex flex-wrap items-center justify-center gap-3">
                         <button id="btn-start-round" onclick="startNewRound()"
                             class="flex-1 min-w-[160px] py-3.5 px-6 rounded-2xl bg-brand-kick hover:bg-brand-kickHover text-black font-black text-base shadow-kick-glow transition active:scale-95 flex items-center justify-center gap-2 cursor-pointer">
@@ -300,7 +274,6 @@
                     </div>
                 </div>
 
-                <!-- شريط محاكاة الشات للتجربة الفورية قبل البث -->
                 <div class="bg-brand-card border border-brand-border rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
                     <div class="flex items-center gap-2 text-xs font-bold text-brand-purpleLight shrink-0">
                         <span class="w-2 h-2 rounded-full bg-brand-kick animate-ping"></span>
@@ -323,10 +296,8 @@
                 </div>
             </section>
 
-            <!-- الشريط الجانبي: لوحة المتصدرين + الشات المباشر (4 أعمدة) -->
             <aside class="lg:col-span-4 flex flex-col gap-4">
 
-                <!-- بطاقة لوحة المتصدرين -->
                 <div class="bg-brand-card border border-brand-border rounded-3xl p-4 shadow-xl">
                     <div class="flex items-center justify-between pb-3 mb-3 border-b border-brand-border">
                         <h2 class="font-black text-base flex items-center gap-2">
@@ -341,7 +312,6 @@
                     <div id="leaderboard-list" class="space-y-2 max-h-[260px] overflow-y-auto pr-1"></div>
                 </div>
 
-                <!-- بطاقة سجل الشات المباشر -->
                 <div class="bg-brand-card border border-brand-border rounded-3xl p-4 shadow-xl flex flex-col h-[310px]">
                     <div class="flex items-center justify-between pb-2.5 mb-2 border-b border-brand-border">
                         <h3 class="font-black text-sm flex items-center gap-2">
@@ -362,12 +332,10 @@
         </div>
     </main>
 
-    <!-- تذييل الحقوق -->
     <footer class="border-t border-brand-border/70 bg-brand-card/50 py-3 px-4 text-center text-xs text-brand-muted">
         <span>8bjc games</span> — منصة تحدي الشات التفاعلية لبثوث Kick
     </footer>
 
-    <!-- نافذة مساعدة استخراج Chatroom ID -->
     <div id="help-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
         <div class="bg-brand-card border border-brand-purple rounded-3xl max-w-lg w-full p-6 shadow-2xl animate-pop">
             <div class="flex items-center justify-between pb-3 mb-4 border-b border-brand-border">
@@ -394,7 +362,6 @@
         </div>
     </div>
 
-    <!-- نافذة إضافة سؤال مخصص أثناء البث -->
     <div id="custom-q-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
         <div class="bg-brand-card border border-brand-kick rounded-3xl max-w-md w-full p-6 shadow-2xl animate-pop">
             <div class="flex items-center justify-between pb-3 mb-4 border-b border-brand-border">
@@ -425,9 +392,6 @@
     </div>
 
     <script>
-        /**
-         * 1. بنك الأسئلة والألغاز والتخمين
-         */
         const QUESTION_BANK = [
             { mode: 'emoji', category: '🎭 خمن الإيموجي (أفلام)', prompt: '🦁👑🌅', answers: ['الاسد الملك', 'الأسد الملك', 'سيمبا', 'lion king'], hints: ['فيلم ديزني شهير بطله شبل صغير', 'اسمه سيمبا وعمه سكار'], points: 100 },
             { mode: 'emoji', category: '🎭 خمن الإيموجي (أفلام)', prompt: '🚢🧊💔🎻', answers: ['تايتنك', 'تيتانيك', 'titanic'], hints: ['سفينة عملاقة غرقت في المحيط الأطلسي', 'بطولة ليوناردو دي كابريو'], points: 100 },
@@ -494,9 +458,6 @@
             { mode: 'who', category: '🕵️‍♂️ خمن من أنا؟', prompt: 'التلميح الأول: أنا أطول برج في العالم بارتفاع 828 متراً...', answers: ['برج خليفة', 'برج خليفه'], hints: ['التلميح الثاني: أقع في دولة الإمارات العربية المتحدة', 'التلميح الثالث: أشهر معلم سياحي في مدينة دبي'], points: 150 }
         ];
 
-        /**
-         * 2. حالة اللعبة والمتغيرات العامة
-         */
         let selectedMode = 'all';
         let currentQuestion = null;
         let isRoundActive = false;
@@ -509,18 +470,13 @@
 
         let leaderboard = JSON.parse(localStorage.getItem('kick_chat_leaderboard') || '{}');
 
-        // متغيرات الاتصال بـ Kick WebSocket
         let kickSocket = null;
         let connectedChannelName = '';
         let currentChatroomId = '';
         let pingKeepAliveInterval = null;
-        let reconnectTimeout = null;
         let totalChatMessages = 0;
         let isSoundEnabled = true;
 
-        /**
-         * 3. محرك المؤثرات الصوتية
-         */
         let audioCtx = null;
 
         function ensureAudioContext() {
@@ -579,9 +535,6 @@
             showToast(isSoundEnabled ? 'تم تفعيل الصوت 🔊' : 'تم كتم الصوت 🔇', 'info');
         }
 
-        /**
-         * 4. محرك مطابقة الإجابات العربية الذكي
-         */
         function normalizeArabicText(text) {
             if (!text) return '';
             return text
@@ -629,9 +582,6 @@
             return false;
         }
 
-        /**
-         * 5. منطق الجولات والتلميحات والعد التنازلي
-         */
         function selectGameMode(mode) {
             selectedMode = mode;
             document.querySelectorAll('.mode-card').forEach(btn => {
@@ -803,9 +753,6 @@
             document.getElementById('q-points-badge').textContent = `+${currentPointsValue} نقطة`;
         }
 
-        /**
-         * 6. معالجة رسائل الشات القادمة
-         */
         function processChatMessage(username, message) {
             totalChatMessages++;
             document.getElementById('chat-msg-counter').textContent = `${totalChatMessages} رسالة`;
@@ -841,17 +788,10 @@
             }
         }
 
-        /**
-         * 7. الربط المباشر بشات Kick عبر Pusher WebSocket (مستقر مع نبض وإعادة اتصال)
-         */
-        function clearSocketTimers() {
+        function clearSocketKeepAlive() {
             if (pingKeepAliveInterval) {
                 clearInterval(pingKeepAliveInterval);
                 pingKeepAliveInterval = null;
-            }
-            if (reconnectTimeout) {
-                clearTimeout(reconnectTimeout);
-                reconnectTimeout = null;
             }
         }
 
@@ -862,7 +802,6 @@
                 return;
             }
 
-            // إذا أدخل الستريمر أرقاماً فقط، نتصل برقم الشات مباشرة دون الحاجة لطلب API
             if (/^\d+$/.test(raw)) {
                 connectPusherByChatroomId(raw, `غرفة #${raw}`);
                 return;
@@ -888,12 +827,13 @@
             }
         }
 
-        function connectPusherByChatroomId(chatroomId, labelName, isReconnect = false) {
-            clearSocketTimers();
+        function connectPusherByChatroomId(chatroomId, labelName) {
+            clearSocketKeepAlive();
 
             if (kickSocket) {
                 try {
                     kickSocket.onclose = null;
+                    kickSocket.onerror = null;
                     kickSocket.close();
                 } catch (e) {}
                 kickSocket = null;
@@ -901,10 +841,7 @@
 
             connectedChannelName = labelName;
             currentChatroomId = String(chatroomId).trim();
-
-            if (!isReconnect) {
-                updateConnectionUI('connecting', `جاري الاتصال بـ ${labelName}...`);
-            }
+            updateConnectionUI('connecting', `جاري الاتصال بـ ${labelName}...`);
 
             const wsUrl = 'wss://ws-us2.pusher.com/app/32cbd69e4b950bf97679?protocol=7&client=js&version=8.4.0-rc2&flash=false';
             const socket = new WebSocket(wsUrl);
@@ -918,22 +855,18 @@
                     data: { auth: '', channel: `chatrooms.${currentChatroomId}.v2` }
                 }));
 
-                // إرسال نبضة pong كل 25 ثانية لإبقاء الاتصال مفتوحاً
                 pingKeepAliveInterval = setInterval(() => {
                     if (socket.readyState === WebSocket.OPEN) {
                         try {
                             socket.send(JSON.stringify({ event: 'pusher:pong', data: {} }));
                         } catch (e) {}
                     }
-                }, 25000);
+                }, 20000);
 
                 updateConnectionUI('connected', `متصل: ${labelName}`);
                 document.getElementById('btn-connect').classList.add('hidden');
                 document.getElementById('btn-disconnect').classList.remove('hidden');
-
-                if (!isReconnect) {
-                    showToast(`تم الاتصال بشات ${labelName} بنجاح! ابدأ الجولة الآن.`, 'success');
-                }
+                showToast(`تم الاتصال بشات ${labelName} بنجاح! ابدأ الجولة الآن.`, 'success');
             };
 
             socket.onmessage = (event) => {
@@ -942,6 +875,10 @@
                     const payload = JSON.parse(event.data);
                     if (payload.event === 'pusher:ping') {
                         socket.send(JSON.stringify({ event: 'pusher:pong', data: {} }));
+                        return;
+                    }
+                    if (payload.event === 'pusher:error') {
+                        showToast('تأكد من رقم Chatroom ID أو حالة الغرفة على Kick.', 'warning');
                         return;
                     }
                     if (payload.event === 'App\\Events\\ChatMessageEvent') {
@@ -957,38 +894,31 @@
 
             socket.onerror = () => {
                 if (kickSocket !== socket) return;
-                updateConnectionUI('connecting', `محاولة تثبيت الاتصال بـ ${labelName}...`);
+                clearSocketKeepAlive();
+                updateConnectionUI('error', 'تعذر تثبيت الاتصال');
             };
 
             socket.onclose = () => {
                 if (kickSocket !== socket) return;
-                clearSocketTimers();
+                clearSocketKeepAlive();
                 kickSocket = null;
-
-                // إذا كان المستخدم متصلاً بقناة، نحاول إعادة الاتصال تلقائياً بعد 3 ثوانٍ
-                if (connectedChannelName && currentChatroomId) {
-                    updateConnectionUI('connecting', `إعادة اتصال بـ ${connectedChannelName}...`);
-                    reconnectTimeout = setTimeout(() => {
-                        if (connectedChannelName && currentChatroomId) {
-                            connectPusherByChatroomId(currentChatroomId, connectedChannelName, true);
-                        }
-                    }, 3000);
-                } else {
-                    updateConnectionUI('disconnected', 'وضع التجربة (غير متصل)');
-                    document.getElementById('btn-connect').classList.remove('hidden');
-                    document.getElementById('btn-disconnect').classList.add('hidden');
-                }
+                connectedChannelName = '';
+                currentChatroomId = '';
+                updateConnectionUI('disconnected', 'تم قطع الاتصال');
+                document.getElementById('btn-connect').classList.remove('hidden');
+                document.getElementById('btn-disconnect').classList.add('hidden');
             };
         }
 
         function disconnectKick() {
             connectedChannelName = '';
             currentChatroomId = '';
-            clearSocketTimers();
+            clearSocketKeepAlive();
 
             if (kickSocket) {
                 try {
                     kickSocket.onclose = null;
+                    kickSocket.onerror = null;
                     kickSocket.close();
                 } catch (e) {}
                 kickSocket = null;
@@ -1007,10 +937,10 @@
             dot.className = 'w-2.5 h-2.5 rounded-full';
 
             if (state === 'connected') {
-                dot.classList.add('bg-brand-kick', 'animate-ping');
+                dot.classList.add('bg-brand-kick');
                 label.className = 'text-brand-kick';
             } else if (state === 'connecting') {
-                dot.classList.add('bg-brand-purpleLight', 'animate-bounce');
+                dot.classList.add('bg-brand-purpleLight');
                 label.className = 'text-brand-purpleLight';
             } else if (state === 'error') {
                 dot.classList.add('bg-red-500');
@@ -1021,9 +951,6 @@
             }
         }
 
-        /**
-         * 8. إدارة لوحة المتصدرين والمحاكاة والنوافذ المنبثقة
-         */
         function saveAndRenderLeaderboard() {
             localStorage.setItem('kick_chat_leaderboard', JSON.stringify(leaderboard));
             renderLeaderboard();
