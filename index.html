@@ -219,7 +219,7 @@
                     </div>
                     <div id="chat-feed" class="flex-1 overflow-y-auto space-y-1.5 text-xs pr-1">
                         <div class="bg-brand-bg/70 text-brand-muted p-2.5 rounded-xl leading-relaxed">
-                            جاري المزامنة التلقائية لشات <strong class="text-brand-kick">d7_ll</strong> عبر الوسيط السحابي...
+                            جاري الاتصال المباشر بشات <strong class="text-brand-kick">d7_ll</strong>...
                         </div>
                     </div>
                 </div>
@@ -292,11 +292,6 @@
         let usedQuestionIndices = new Set();
         let leaderboard = JSON.parse(localStorage.getItem('kick_chat_leaderboard') || '{}');
 
-        // متغيرات السحب السحابي (Polling عبر وسيط لتجاوز حظر المتصفح)
-        let pollTimer = null;
-        let isPollingActive = false;
-        let seenMessageIds = new Set();
-        let isInitialBatch = true;
         let totalChatMessages = 0;
         let isSoundEnabled = true;
         let audioCtx = null;
@@ -566,87 +561,115 @@
             while (feed.children.length > 70) feed.removeChild(feed.firstChild);
         }
 
-        /**
-         * سحب رسائل شات Kick عبر وسيط سحابي لتجاوز حظر WebSocket من المتصفح
-         */
-        async function fetchChannelMessagesViaProxy(channelSlug) {
-            const targetUrl = `https://kick.com/api/v2/channels/${encodeURIComponent(channelSlug)}/messages`;
-            const proxies = [
-                `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}&_=${Date.now()}`,
-                `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`
-            ];
+        /* ===== ربط شات Kick المباشر عبر Pusher WebSocket ===== */
+        const KICK_PUSHER_URL = 'wss://ws-us2.pusher.com/app/32cbd69e4b950bf97679?protocol=7&client=js&version=8.4.0&flash=false';
+        let kickSocket = null;
+        let kickReconnectTimer = null;
+        let kickManualStop = false;
 
-            for (const proxyUrl of proxies) {
+        async function getChatroomId(slug) {
+            const cached = localStorage.getItem('kick_chatroom_' + slug);
+            if (cached) return cached;
+
+            const target = `https://kick.com/api/v2/channels/${encodeURIComponent(slug)}`;
+            const urls = [
+                target,
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(target)}`,
+                `https://corsproxy.io/?url=${encodeURIComponent(target)}`
+            ];
+            for (const u of urls) {
                 try {
-                    const res = await fetch(proxyUrl, { cache: 'no-store' });
+                    const res = await fetch(u, { cache: 'no-store' });
                     if (!res.ok) continue;
                     const json = await res.json();
-                    const messages = json?.data?.messages || json?.messages || [];
-                    if (Array.isArray(messages)) {
-                        return messages;
+                    const id = json?.chatroom?.id;
+                    if (id) {
+                        localStorage.setItem('kick_chatroom_' + slug, String(id));
+                        return String(id);
                     }
                 } catch (e) {}
+            }
+
+            const manual = prompt(
+                `ما قدرت أجيب رقم غرفة الشات تلقائياً.\n` +
+                `افتح هذا الرابط في المتصفح:\nhttps://kick.com/api/v2/channels/${slug}\n` +
+                `وابحث عن "chatroom":{"id": وانسخ الرقم اللي بعدها هنا:`
+            );
+            if (manual && /^\d+$/.test(manual.trim())) {
+                localStorage.setItem('kick_chatroom_' + slug, manual.trim());
+                return manual.trim();
             }
             return null;
         }
 
-        async function pollLoop(channelSlug) {
-            if (!isPollingActive) return;
+        function connectKickSocket(slug, chatroomId) {
+            if (kickManualStop) return;
+            kickSocket = new WebSocket(KICK_PUSHER_URL);
 
-            const messages = await fetchChannelMessagesViaProxy(channelSlug);
-            if (!isPollingActive) return;
+            kickSocket.onopen = () => {
+                kickSocket.send(JSON.stringify({
+                    event: 'pusher:subscribe',
+                    data: { auth: '', channel: `chatrooms.${chatroomId}.v2` }
+                }));
+            };
 
-            if (messages !== null) {
-                updateConnectionUI('connected', `متصل ومستقر: ${channelSlug}`);
-                document.getElementById('btn-connect').classList.add('hidden');
-                document.getElementById('btn-disconnect').classList.remove('hidden');
+            kickSocket.onmessage = (ev) => {
+                let msg;
+                try { msg = JSON.parse(ev.data); } catch { return; }
 
-                const ordered = [...messages].reverse();
-                for (const m of ordered) {
-                    const id = m.id || `${m.sender?.username}_${m.created_at}_${m.content}`;
-                    if (!seenMessageIds.has(id)) {
-                        seenMessageIds.add(id);
-                        if (!isInitialBatch) {
-                            const sender = m.sender?.username;
-                            const text = m.content;
-                            if (sender && text !== undefined) {
-                                processChatMessage(sender, String(text));
-                            }
-                        }
-                    }
+                if (msg.event === 'pusher:ping') {
+                    kickSocket.send(JSON.stringify({ event: 'pusher:pong', data: {} }));
+                    return;
                 }
-                if (isInitialBatch) {
-                    isInitialBatch = false;
-                    appendChatRow('النظام', `تم ربط شات ${channelSlug} بنجاح (بدون WebSocket مغلق)`, false);
+                if (msg.event === 'pusher_internal:subscription_succeeded') {
+                    updateConnectionUI('connected', `متصل: ${slug}`);
+                    document.getElementById('btn-connect').classList.add('hidden');
+                    document.getElementById('btn-disconnect').classList.remove('hidden');
+                    appendChatRow('النظام', `تم ربط شات ${slug} بنجاح ✅`, false);
+                    return;
                 }
-            } else {
-                updateConnectionUI('connecting', `إعادة محاولة المزامنة مع ${channelSlug}...`);
-            }
+                if (msg.event === 'App\\Events\\ChatMessageEvent') {
+                    let d;
+                    try { d = typeof msg.data === 'string' ? JSON.parse(msg.data) : msg.data; } catch { return; }
+                    const sender = d?.sender?.username;
+                    const text = d?.content;
+                    if (!sender || text == null) return;
+                    const clean = String(text).replace(/\[emote:\d+:[^\]]*\]/g, '').trim();
+                    processChatMessage(sender, clean || String(text));
+                }
+            };
 
-            if (isPollingActive) {
-                pollTimer = setTimeout(() => pollLoop(channelSlug), 2200);
-            }
+            kickSocket.onclose = () => {
+                if (kickManualStop) return;
+                updateConnectionUI('connecting', `إعادة الاتصال بـ ${slug}...`);
+                kickReconnectTimer = setTimeout(() => connectKickSocket(slug, chatroomId), 3000);
+            };
+
+            kickSocket.onerror = () => {};
         }
 
-        function startChatPolling() {
+        async function startChatPolling() {
             stopChatPolling(true);
             const raw = document.getElementById('kick-input').value.trim() || 'd7_ll';
-            const channelSlug = raw.replace(/^(https?:\/\/)?(www\.)?kick\.com\//i, '').replace(/\/$/, '').toLowerCase();
-            document.getElementById('kick-input').value = channelSlug;
+            const slug = raw.replace(/^(https?:\/\/)?(www\.)?kick\.com\//i, '').replace(/\/$/, '').toLowerCase();
+            document.getElementById('kick-input').value = slug;
 
-            isPollingActive = true;
-            isInitialBatch = true;
-            seenMessageIds.clear();
-            updateConnectionUI('connecting', `جاري الربط مع ${channelSlug}...`);
-            pollLoop(channelSlug);
+            kickManualStop = false;
+            updateConnectionUI('connecting', `جاري الربط مع ${slug}...`);
+
+            const chatroomId = await getChatroomId(slug);
+            if (!chatroomId) {
+                updateConnectionUI('disconnected', 'ما تم الربط');
+                showToast('ما قدرت أحصل رقم غرفة الشات. جرب مرة ثانية.', 'warning');
+                return;
+            }
+            connectKickSocket(slug, chatroomId);
         }
 
         function stopChatPolling(silent = false) {
-            isPollingActive = false;
-            if (pollTimer) {
-                clearTimeout(pollTimer);
-                pollTimer = null;
-            }
+            kickManualStop = true;
+            if (kickReconnectTimer) { clearTimeout(kickReconnectTimer); kickReconnectTimer = null; }
+            if (kickSocket) { try { kickSocket.close(); } catch (e) {} kickSocket = null; }
             updateConnectionUI('disconnected', 'تم إيقاف المزامنة');
             document.getElementById('btn-connect').classList.remove('hidden');
             document.getElementById('btn-disconnect').classList.add('hidden');
